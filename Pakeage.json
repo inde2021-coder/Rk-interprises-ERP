@@ -1,0 +1,14 @@
+{
+  "name": "rk-enterprise-erp",
+  "version": "1.0.0",
+  "description": "Enterprise ERP with Auto-Tally Engine by SHARD PATEL",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "mongoose": "^8.3.1"
+  }
+}
+
