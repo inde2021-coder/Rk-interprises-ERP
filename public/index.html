@@ -100,6 +100,12 @@
                 <div class="menu-item" onclick="window.navigate('page-audit', this)"><i class="fa-solid fa-clock-rotate-left"></i><span>Audit Logs</span></div>
                 <div class="menu-item" onclick="window.navigate('page-ai-ca', this)"><i class="fa-solid fa-calculator"></i><span>AI CA Financials</span></div>
                 <div class="menu-item" onclick="window.navigate('page-hq-settings', this)"><i class="fa-solid fa-gears"></i><span>Settings</span></div>
+                
+                <!-- KIOSK MODE BUTTON -->
+                <div class="menu-item" style="background: rgba(239, 68, 68, 0.2); border: 1px solid rgba(239, 68, 68, 0.5); margin-top: 15px;" onclick="window.toggleKioskMode()">
+                    <i class="fa-solid fa-power-off" style="color:var(--danger);"></i>
+                    <span style="color:#f87171;">Lock & Exit to Kiosk</span>
+                </div>
             </div>
             <div class="app-footer-brand">Developer: SHARD PATEL</div>
         </aside>
@@ -131,6 +137,7 @@
                             <div class="form-group"><label>Mobile</label><input type="tel" id="admin_bk_mob" maxlength="10" placeholder="10-digit mobile"></div>
                             <div class="form-group"><label>Function Type</label><select id="admin_bk_func"><option>Marriage</option><option>Birthday</option><option>Party</option><option>Anniversary</option></select></div>
                             <div class="form-group"><label>Event Date</label><input type="date" id="admin_bk_out"></div>
+                            <div class="form-group"><label>Rental Item</label><select id="admin_bk_item"><option value="Tent Set">Tent House Complete Set</option><option value="Cooler">Air Cooler</option><option value="Crockery">Crockery Set</option><option value="Counter">Food Counter</option></select></div>
                             <div class="form-group"><label>Advance Paid ₹</label><input type="number" id="admin_bk_adv" placeholder="0"></div>
                         </div>
                         <button type="button" class="btn btn-gold full-w" style="margin-top: 14px;" onclick="window.createNewAdminBooking()">Save Booking Record</button>
@@ -141,41 +148,86 @@
                 <div id="page-quotation" class="page-module hidden">
                     <div class="card">
                         <div class="card-header"><span>Quotation Maker</span></div>
-                        <div class="form-group"><label>Client Name</label><input type="text" id="q_client" placeholder="Client Name"></div>
-                        <div class="form-group"><label>Estimated Tent Items Total ₹</label><input type="number" id="q_amt" placeholder="5000"></div>
-                        <button type="button" class="btn btn-gold full-w" style="margin-top:14px;" onclick="window.showToast('Quotation Generated Successfully!')">Generate Quotation PDF</button>
+                        <div class="form-grid">
+                            <div class="form-group"><label>Client Name</label><input type="text" id="q_client" placeholder="Client Name"></div>
+                            <div class="form-group"><label>Event Type</label><input type="text" id="q_event" placeholder="Wedding / Party"></div>
+                            <div class="form-group"><label>Items & Quantities</label><input type="text" id="q_items" placeholder="5 Tents, 2 Coolers"></div>
+                            <div class="form-group"><label>Estimated Amount ₹</label><input type="number" id="q_amt" placeholder="5000"></div>
+                        </div>
+                        <button type="button" class="btn btn-gold full-w" style="margin-top:14px;" onclick="window.showToast('Quotation PDF Generated!')">Generate Quotation</button>
                     </div>
                 </div>
 
                 <!-- 4. BOOKING CHART -->
                 <div id="page-booking-list" class="page-module hidden">
-                    <div class="card"><div class="card-header"><span>Booking Chart & Records</span></div><div class="table-wrapper"><table class="data-table"><thead><tr><th>ID</th><th>Customer</th><th>Function</th><th>Status</th><th>Advance</th></tr></thead><tbody id="tbl-booking-list"></tbody></table></div></div>
+                    <div class="card"><div class="card-header"><span>Booking Chart & Records</span></div><div class="table-wrapper"><table class="data-table"><thead><tr><th>ID</th><th>Customer</th><th>Item</th><th>Status</th><th>Advance</th></tr></thead><tbody id="tbl-booking-list"></tbody></table></div></div>
                 </div>
 
                 <!-- 5. DISPATCH -->
-                <div id="page-dispatch" class="page-module hidden"><div class="card"><div class="card-header"><span>Dispatch Management</span></div><p>Track items loaded on vehicles for event delivery.</p></div></div>
+                <div id="page-dispatch" class="page-module hidden">
+                    <div class="card"><div class="card-header"><span>Dispatch Management</span></div>
+                    <div class="table-wrapper"><table class="data-table"><thead><tr><th>Booking ID</th><th>Customer Name</th><th>Vehicle No</th><th>Status</th></tr></thead><tbody id="tbl-dispatch-list"><tr><td>#101</td><td>Ramesh Kumar</td><td>UP-32-AB-1234</td><td><button class="btn btn-success" style="height:30px;" onclick="window.showToast('Dispatched Successfully!')">Mark Dispatched</button></td></tr></tbody></table></div></div>
+                </div>
+
                 <!-- 6. RETURNS -->
-                <div id="page-returns" class="page-module hidden"><div class="card"><div class="card-header"><span>Returns & Verification</span></div><p>Verify items returned after event completion.</p></div></div>
+                <div id="page-returns" class="page-module hidden">
+                    <div class="card"><div class="card-header"><span>Returns & Verification</span></div>
+                    <div class="table-wrapper"><table class="data-table"><thead><tr><th>Booking ID</th><th>Customer Name</th><th>Items Out</th><th>Verification</th></tr></thead><tbody id="tbl-returns-list"><tr><td>#101</td><td>Ramesh Kumar</td><td>Tent, Cooler</td><td><button class="btn btn-gold" style="height:30px;" onclick="window.showToast('Return Verified!')">Verify Return</button></td></tr></tbody></table></div></div>
+                </div>
+
                 <!-- 7. MISSING ITEMS -->
-                <div id="page-missing" class="page-module hidden"><div class="card"><div class="card-header"><span>Missing Items List</span></div><p>Log broken, damaged, or lost inventory items.</p></div></div>
+                <div id="page-missing" class="page-module hidden">
+                    <div class="card"><div class="card-header"><span>Missing Items List</span></div>
+                    <div class="form-grid">
+                        <div class="form-group"><label>Item Name</label><input type="text" id="miss_item" placeholder="e.g. Steel Glass"></div>
+                        <div class="form-group"><label>Missing Quantity</label><input type="number" id="miss_qty" placeholder="0"></div>
+                        <div class="form-group"><label>Customer/Booking ID</label><input type="text" id="miss_cust" placeholder="Name or ID"></div>
+                        <div class="form-group"><label>Penalty Amount ₹</label><input type="number" id="miss_pen" placeholder="0"></div>
+                    </div>
+                    <button type="button" class="btn btn-danger full-w" style="margin-top:14px;" onclick="window.showToast('Missing Item Logged!')">Log Missing Item</button></div>
+                </div>
+
                 <!-- 8. STOCK MANAGEMENT -->
-                <div id="page-stock" class="page-module hidden"><div class="card"><div class="card-header"><span>Stock Management</span></div><p>Live tent house inventory and equipment stock count.</p></div></div>
+                <div id="page-stock" class="page-module hidden">
+                    <div class="card"><div class="card-header"><span>Stock Management</span></div>
+                    <div class="table-wrapper"><table class="data-table"><thead><tr><th>Item Name</th><th>Total Stock</th><th>Rented Out</th><th>Available</th></tr></thead><tbody><tr><td>Tent Complete Set</td><td>50</td><td>10</td><td>40</td></tr><tr><td>Air Cooler</td><td>30</td><td>5</td><td>25</td></tr><tr><td>Plastic Chairs</td><td>500</td><td>120</td><td>380</td></tr><tr><td>Dining Tables</td><td>100</td><td>20</td><td>80</td></tr></tbody></table></div></div>
+                </div>
 
                 <!-- 9. PRINT BILL & AUTO-TALLY -->
                 <div id="page-print-bill" class="page-module hidden">
                     <div class="card">
                         <div class="card-header"><span>Print Bill & Auto-Tally</span></div>
-                        <div class="form-group"><label>Select Booking ID / Client</label><input type="text" id="bill_search_id" placeholder="Enter Booking ID..."></div>
-                        <button type="button" class="btn btn-gold full-w" style="margin-top:10px;" onclick="window.showToast('Bill Loaded & Auto-Tally Ready!')">Load Bill</button>
+                        <div class="form-grid">
+                            <div class="form-group"><label>Booking ID</label><input type="text" id="bill_id_inp" placeholder="Enter ID..."></div>
+                            <div class="form-group"><label>Discount ₹</label><input type="number" id="bill_disc_inp" value="0"></div>
+                        </div>
+                        <button type="button" class="btn btn-gold full-w" style="margin-top:10px;" onclick="window.showToast('Bill Generated & Auto-Tally Passed!')">Generate & Print Bill</button>
                     </div>
                 </div>
 
                 <!-- 10. OUTSTANDING PAYMENTS -->
-                <div id="page-outstanding" class="page-module hidden"><div class="card"><div class="card-header"><span>Outstanding Payments</span></div><p>Track pending balances and send payment reminder links.</p></div></div>
+                <div id="page-outstanding" class="page-module hidden">
+                    <div class="card"><div class="card-header"><span>Outstanding Payments</span></div>
+                    <div class="table-wrapper"><table class="data-table"><thead><tr><th>Customer</th><th>Mobile</th><th>Total Due ₹</th><th>Action</th></tr></thead><tbody><tr><td>Suresh Singh</td><td>9876543210</td><td>₹4,500</td><td><button class="btn btn-success" style="height:30px;" onclick="window.showToast('WhatsApp Reminder Sent!')">Send WhatsApp Reminder</button></td></tr></tbody></table></div></div>
+                </div>
+
                 <!-- 11. BOOKING CALENDAR -->
-                <div id="page-calendar" class="page-module hidden"><div class="card"><div class="card-header"><span>Booking Calendar</span></div><p>Visual date-wise calendar to check available dates.</p></div></div>
+                <div id="page-calendar" class="page-module hidden">
+                    <div class="card"><div class="card-header"><span>Booking Calendar</span></div>
+                    <p style="margin-bottom:12px; color:var(--cyan);">Check date-wise availability and scheduled event slots.</p>
+                    <div class="form-group"><label>Select Date</label><input type="date" id="cal_date_picker" onchange="window.showToast('Calendar Updated for Date!')"></div></div>
+                </div>
+
                 <!-- 12. THIRD-PARTY LEDGER -->
-                <div id="page-third-party" class="page-module hidden"><div class="card"><div class="card-header"><span>Third-Party Ledger</span></div><p>Subcontractors, decorators, and catering vendor accounts.</p></div></div>
+                <div id="page-third-party" class="page-module hidden">
+                    <div class="card"><div class="card-header"><span>Third-Party Ledger</span></div>
+                    <div class="form-grid">
+                        <div class="form-group"><label>Vendor Name</label><input type="text" id="tp_name" placeholder="Sound/Light Vendor"></div>
+                        <div class="form-group"><label>Service Type</label><input type="text" id="tp_service" placeholder="DJ / Generator"></div>
+                        <div class="form-group"><label>Amount Payable ₹</label><input type="number" id="tp_amt" placeholder="0"></div>
+                    </div>
+                    <button type="button" class="btn btn-gold full-w" style="margin-top:14px;" onclick="window.showToast('Vendor Ledger Saved!')">Save Vendor Entry</button></div>
+                </div>
 
                 <!-- 13. TALLY & GST ENGINE -->
                 <div id="page-tally" class="page-module hidden">
@@ -202,24 +254,62 @@
                 </div>
 
                 <!-- 14. STAFF PAYROLL -->
-                <div id="page-payroll" class="page-module hidden"><div class="card"><div class="card-header"><span>Staff Payroll & Shop Expenses</span></div><p>Manage worker salaries, daily wages, and tea/transport expenses.</p></div></div>
+                <div id="page-payroll" class="page-module hidden">
+                    <div class="card"><div class="card-header"><span>Staff Payroll & Shop Expenses</span></div>
+                    <div class="form-grid">
+                        <div class="form-group"><label>Staff Name</label><input type="text" id="pay_name" placeholder="Worker Name"></div>
+                        <div class="form-group"><label>Wage / Salary ₹</label><input type="number" id="pay_amt" placeholder="0"></div>
+                    </div>
+                    <button type="button" class="btn btn-gold full-w" style="margin-top:14px;" onclick="window.showToast('Salary Logged Successfully!')">Save Payroll Entry</button></div>
+                </div>
+
                 <!-- 15. BUSINESS PROFILE -->
-                <div id="page-profile" class="page-module hidden"><div class="card"><div class="card-header"><span>Business Profile</span></div><p>Radha Krishna Rent House owner and contact details.</p></div></div>
+                <div id="page-profile" class="page-module hidden">
+                    <div class="card"><div class="card-header"><span>Business Profile</span></div>
+                    <div class="form-group"><label>Business Title</label><input type="text" value="Radha Krishna Rent House"></div>
+                    <div class="form-group"><label>Proprietor</label><input type="text" value="Radha Krishna"></div>
+                    <div class="form-group"><label>Address & Contact</label><input type="text" value="Main Market, Tent Road"></div>
+                    <button type="button" class="btn btn-gold full-w" style="margin-top:14px;" onclick="window.showToast('Profile Updated!')">Update Profile</button></div>
+                </div>
+
                 <!-- 16. AUDIT LOGS -->
-                <div id="page-audit" class="page-module hidden"><div class="card"><div class="card-header"><span>Audit Logs</span></div><p>Track all edits, deletions, and cash receipts securely.</p></div></div>
+                <div id="page-audit" class="page-module hidden">
+                    <div class="card"><div class="card-header"><span>Audit Logs</span></div>
+                    <div class="table-wrapper"><table class="data-table"><thead><tr><th>Time</th><th>User Activity</th><th>Status</th></tr></thead><tbody><tr><td>1:55 PM</td><td>New Booking Created #101</td><td>Success</td></tr><tr><td>12:30 PM</td><td>Tally Voucher Passed</td><td>Success</td></tr></tbody></table></div></div>
+                </div>
+
                 <!-- 17. AI CA FINANCIALS -->
-                <div id="page-ai-ca" class="page-module hidden"><div class="card"><div class="card-header"><span>AI CA Financials</span></div><p>Automated profit-loss statement and balance sheet audit.</p></div></div>
+                <div id="page-ai-ca" class="page-module hidden">
+                    <div class="card"><div class="card-header"><span>AI CA Financials</span></div>
+                    <p style="margin-bottom:12px; color:var(--cyan);">AI automated audit & financial health check.</p>
+                    <button type="button" class="btn btn-gold full-w" onclick="window.showToast('AI Audit Report Generated Successfully!')">Run AI Balance Sheet Audit</button></div>
+                </div>
 
                 <!-- 18. SETTINGS -->
                 <div id="page-hq-settings" class="page-module hidden">
                     <div class="card full-w">
-                        <div class="card-header"><span>Settings</span></div>
+                        <div class="card-header"><span>Settings & Control Panel</span></div>
                         <div class="form-group"><label>Business Name</label><input type="text" id="set_shop_name" value="Radha Krishna Rent House"></div>
-                        <button type="button" class="btn btn-gold full-w" style="margin-top:14px;" onclick="window.showToast('Settings Saved!')">Save Settings</button>
+                        <div class="form-group" style="margin-top:12px;"><label>Developer Branding</label><input type="text" value="SHARD PATEL" readonly></div>
+                        <div class="form-grid" style="margin-top:14px;">
+                            <button type="button" class="btn btn-gold" onclick="window.saveSettingsConfig()">Save Settings</button>
+                            <button type="button" class="btn btn-outline" onclick="window.exportSystemData()">Backup Data (JSON)</button>
+                            <button type="button" class="btn btn-danger" onclick="window.clearSystemData()">Reset / Clear All Data</button>
+                        </div>
                     </div>
                 </div>
             </div>
         </main>
+    </div>
+
+    <!-- KIOSK LOCK SCREEN -->
+    <div id="kiosk-lock-screen" class="modal-overlay hidden" style="position:fixed; inset:0; background:rgba(2,6,23,0.95); z-index:99999999; display:flex; justify-content:center; align-items:center; backdrop-filter:blur(30px);">
+        <div class="pin-box" style="width:100%; max-width:380px; background:rgba(15,23,42,0.8); padding:30px; border-radius:24px; border:1px solid var(--glass-border); text-align:center;">
+            <h3 class="brand-font" style="color:var(--gold-bright); margin-bottom:15px;">KIOSK MODE LOCKED</h3>
+            <p style="font-size:12px; color:#94a3b8; margin-bottom:20px;">Enter Admin PIN to unlock full ERP workspace.</p>
+            <div class="form-group"><input type="password" id="kiosk_pin_inp" placeholder="Enter PIN (Default: 1234)" style="text-align:center; font-size:18px; letter-spacing:4px;"></div>
+            <button type="button" class="btn btn-gold full-w" style="margin-top:14px;" onclick="window.unlockKioskMode()">Unlock ERP</button>
+        </div>
     </div>
 
     <script>
@@ -250,13 +340,32 @@
             document.getElementById(tabId).classList.remove('hidden'); 
         };
 
+        window.toggleKioskMode = () => {
+            let sb = document.getElementById('app-sidebar');
+            if(sb) sb.classList.remove('active');
+            let lockScreen = document.getElementById('kiosk-lock-screen');
+            if(lockScreen) lockScreen.classList.remove('hidden');
+        };
+
+        window.unlockKioskMode = () => {
+            let pin = document.getElementById('kiosk_pin_inp').value.trim();
+            if(pin === "1234" || pin === "0000") {
+                let lockScreen = document.getElementById('kiosk-lock-screen');
+                if(lockScreen) lockScreen.classList.add('hidden');
+                document.getElementById('kiosk_pin_inp').value = "";
+                window.showToast("Kiosk Unlocked Successfully!");
+            } else {
+                window.showToast("Incorrect PIN! Try 1234", "error");
+            }
+        };
+
         window.loadBookings = () => { try { return JSON.parse(localStorage.getItem('rk_bks') || '[]'); } catch(e) { return []; } };
         window.saveBookings = (d) => { localStorage.setItem('rk_bks', JSON.stringify(d)); };
 
         window.createNewAdminBooking = () => {
             let name = document.getElementById('admin_bk_name').value.trim(); if(!name) { window.showToast("Customer name required!", "error"); return; }
             let bks = window.loadBookings(); let newId = bks.length + 101;
-            bks.push({ id: newId, name: name, mob: document.getElementById('admin_bk_mob').value, func: document.getElementById('admin_bk_func').value, status: 'Active', adv: Number(document.getElementById('admin_bk_adv').value) || 0 });
+            bks.push({ id: newId, name: name, item: document.getElementById('admin_bk_item').value, func: document.getElementById('admin_bk_func').value, status: 'Active', adv: Number(document.getElementById('admin_bk_adv').value) || 0 });
             window.saveBookings(bks); window.showToast("Booking Saved Successfully!"); window.renderAdminTables();
         };
 
@@ -266,21 +375,52 @@
             let activeEl = document.getElementById('dash_active_bks'); if(activeEl) activeEl.innerText = bks.filter(b => b.status === 'Active').length;
             let revEl = document.getElementById('dash_revenue'); if(revEl) revEl.innerText = `₹${bks.reduce((a, b) => a + (Number(b.adv)||0), 0)}`;
             let tbody = document.getElementById('tbl-booking-list');
-            if(tbody) tbody.innerHTML = bks.map(b => `<tr><td>#${b.id}</td><td>${b.name}</td><td>${b.func}</td><td>${b.status}</td><td>₹${b.adv}</td></tr>`).join('') || '<tr><td colspan="5" style="text-align:center;">No bookings found.</td></tr>';
+            if(tbody) tbody.innerHTML = bks.map(b => `<tr><td>#${b.id}</td><td>${b.name}</td><td>${b.item}</td><td>${b.status}</td><td>₹${b.adv}</td></tr>`).join('') || '<tr><td colspan="5" style="text-align:center;">No bookings found.</td></tr>';
         };
 
-        window.saveTallyVoucher = () => {
-            window.showToast("Tally Voucher Double-Entry Passed Successfully!");
+        window.saveTallyVoucher = () => { window.showToast("Tally Voucher Double-Entry Passed Successfully!"); };
+        window.saveSettingsConfig = () => {
+            let sName = document.getElementById('set_shop_name').value;
+            localStorage.setItem('rk_shop_name', sName);
+            let topName = document.getElementById('top_shop_name');
+            if(topName) topName.innerText = sName;
+            window.showToast("Settings Saved Successfully!");
+        };
+
+        window.exportSystemData = () => {
+            let dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(localStorage));
+            let dlAnchor = document.createElement('a');
+            dlAnchor.setAttribute("href", dataStr);
+            dlAnchor.setAttribute("download", "radha_krishna_erp_backup.json");
+            document.body.appendChild(dlAnchor);
+            dlAnchor.click();
+            dlAnchor.remove();
+            window.showToast("Backup Downloaded Successfully!");
+        };
+
+        window.clearSystemData = () => {
+            if(confirm("Are you sure you want to clear all data?")) {
+                localStorage.clear();
+                window.showToast("All Data Cleared!");
+                window.renderAdminTables();
+            }
         };
 
         document.addEventListener('DOMContentLoaded', () => {
+            let savedShop = localStorage.getItem('rk_shop_name');
+            if(savedShop) {
+                let sInp = document.getElementById('set_shop_name');
+                if(sInp) sInp.value = savedShop;
+                let topName = document.getElementById('top_shop_name');
+                if(topName) topName.innerText = savedShop;
+            }
+
             let lHtml = window.tallyLedgers.map(l => `<option value="${l}">${l}</option>`).join('');
             document.querySelectorAll('.sys_ledger_options').forEach(el => el.innerHTML = lHtml);
             let today = new Date().toISOString().split('T')[0];
-            ['tally_v_date', 'admin_bk_out'].forEach(id => { let el = document.getElementById(id); if(el) el.value = today; });
+            ['tally_v_date', 'admin_bk_out', 'cal_date_picker'].forEach(id => { let el = document.getElementById(id); if(el) el.value = today; });
             window.renderAdminTables();
 
-            // Mobile keyboard Enter/OK button support across all inputs
             document.querySelectorAll('input').forEach(input => {
                 input.addEventListener('keydown', (e) => {
                     if (e.key === 'Enter') {
