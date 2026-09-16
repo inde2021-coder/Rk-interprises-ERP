@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
-    <title>Universal Enterprise ERP, Tally & AI | Ultimate Complete Edition</title>
+    <title>Universal Enterprise ERP, Tally & AI | Ultimate Fixed Edition</title>
     
     <link rel="manifest" href='data:application/manifest+json,{"name":"Universal ERP Ultimate","short_name":"UNI_ERP","start_url":".","display":"standalone","background_color":"#02040a","theme_color":"#f59e0b","icons":[{"src":"https://img.icons8.com/color/512/diamond.png","sizes":"512x512","type":"image/png"}]}'>
     <meta name="mobile-web-app-capable" content="yes">
@@ -72,8 +72,8 @@
 
         .topbar { height: 64px; background: rgba(3,7,18,0.6); border-bottom: 1px solid var(--glass-border); display: flex; align-items: center; justify-content: space-between; padding: 0 18px; backdrop-filter: blur(25px); } 
         .content-area { flex: 1; overflow-y: auto; padding: 20px; }
-        .modal-overlay { position: fixed !important; inset: 0 !important; background: rgba(0,0,0,0.7) !important; z-index: 999999 !important; display: flex; justify-content: center; align-items: center; padding: 16px; backdrop-filter: blur(15px); } 
-        .pin-box { width: 100%; max-width: 420px; background: rgba(15,23,42,0.75); padding: 36px 30px; border-radius: 24px; border: 1px solid var(--glass-border); text-align: center; backdrop-filter: blur(30px); }
+        .modal-overlay { position: fixed !important; inset: 0 !important; background: rgba(0,0,0,0.75) !important; z-index: 999999 !important; display: flex; justify-content: center; align-items: center; padding: 16px; backdrop-filter: blur(15px); } 
+        .pin-box { width: 100%; max-width: 420px; background: rgba(15,23,42,0.85); padding: 36px 30px; border-radius: 24px; border: 1px solid var(--gold); text-align: center; backdrop-filter: blur(30px); }
         .app-footer-brand { height: 35px; display: flex; align-items: center; justify-content: center; background: rgba(3,7,18,0.9); font-size: 10.5px; border-top: 1px solid rgba(255,255,255,0.08); color: #94a3b8; font-weight: 700; letter-spacing: 1px; }
 
         #kiosk-app { position: fixed; inset: 0; z-index: 3000; display: flex; flex-direction: column; } 
@@ -121,24 +121,28 @@
 
     <div id="toast-msg" class="toast"></div>
 
-    <!-- LOGIN MODAL -->
+    <!-- LOGIN MODAL (FIXED & ENHANCED) -->
     <div id="unified-login-modal" class="modal-overlay hidden">
         <div class="pin-box">
-            <h2 class="brand-font" style="font-size: 16px; color: var(--gold-bright); margin-bottom: 16px;">Admin / Staff Login</h2>
-            <div class="form-group"><input type="password" id="unified_pin" style="text-align: center; font-size: 20px; letter-spacing: 8px;" placeholder="••••" onkeydown="if(event.key === 'Enter') window.processUnifiedAuth();"></div>
-            <button type="button" class="btn btn-gold full-w" style="margin-bottom: 8px;" onclick="window.processUnifiedAuth()">Login</button>
-            <button type="button" class="btn btn-danger full-w" onclick="document.getElementById('unified-login-modal').classList.add('hidden')">Cancel</button>
+            <h2 class="brand-font" style="font-size: 18px; color: var(--gold-bright); margin-bottom: 14px;"><i class="fa-solid fa-lock"></i> Admin / Staff Login</h2>
+            <p style="font-size: 11.5px; color: #94a3b8; margin-bottom: 16px;">Default Admin PIN: <b>812072</b> or <b>D812072</b></p>
+            <div class="form-group">
+                <input type="password" id="unified_pin" style="text-align: center; font-size: 22px; letter-spacing: 8px;" placeholder="••••" onkeydown="if(event.key === 'Enter') window.processUnifiedAuth();">
+            </div>
+            <button type="button" class="btn btn-gold full-w" style="margin-bottom: 8px; height: 44px; font-size: 13px;" onclick="window.processUnifiedAuth()">Login Now</button>
+            <button type="button" class="btn btn-danger full-w" style="height: 38px;" onclick="document.getElementById('unified-login-modal').classList.add('hidden')">Cancel</button>
         </div>
     </div>
 
     <!-- FRONT KIOSK PORTAL -->
     <div id="kiosk-app">
         <div class="kiosk-header">
-            <div onclick="window.handleLogoTapSecret()">
-                <h1 class="hd-logo sys_shop_title" id="kiosk_shop_name" style="font-size: 16px; margin:0; cursor:pointer;">Universal Business Portal</h1>
+            <div onclick="window.handleLogoTapSecret()" style="cursor: pointer; padding: 5px;">
+                <h1 class="hd-logo sys_shop_title" id="kiosk_shop_name" style="font-size: 16px; margin:0; color:var(--gold-bright);">Universal Business Portal <i class="fa-solid fa-key" style="font-size:11px; opacity:0.6;"></i></h1>
             </div>
-            <div style="display: flex; align-items: center; gap: 6px;">
-                <span style="font-size: 10px; color: var(--gold-bright); font-weight: 800; padding: 4px 10px; background: rgba(0,0,0,0.4); border-radius: 12px;">KIOSK MODE</span>
+            <div style="display: flex; align-items: center; gap: 8px;">
+                <button type="button" class="btn btn-gold" style="height: 32px; font-size: 10px;" onclick="window.handleLogoTapSecret()"><i class="fa-solid fa-right-to-bracket"></i> Login</button>
+                <span style="font-size: 10px; color: var(--cyan); font-weight: 800; padding: 4px 10px; background: rgba(0,0,0,0.4); border-radius: 12px;">KIOSK</span>
             </div>
         </div>
         <div style="flex: 1; max-width: 840px; margin: 0 auto; padding: 18px; overflow-y: auto; width:100%;">
@@ -236,7 +240,7 @@
                     </div>
                 </div>
 
-                <!-- 2. NEW BOOKING / DIRECT SALE -->
+                <!-- 2. NEW BOOKING -->
                 <div id="page-new" class="page-module hidden">
                     <div class="card">
                         <div class="card-header"><span class="sys_lbl_new_booking">New Entry Form</span></div>
@@ -320,7 +324,7 @@
                     </div>
                 </div>
 
-                <!-- 7. ALL RECORDS / BOOKING CHART -->
+                <!-- 7. ALL RECORDS -->
                 <div id="page-booking-list" class="page-module hidden">
                     <div class="card">
                         <div class="card-header"><span class="sys_lbl_records">All Records</span></div>
@@ -400,7 +404,7 @@
                     </div>
                 </div>
 
-                <!-- 11. TALLY LEDGER STATEMENT -->
+                <!-- 11. TALLY STATEMENT -->
                 <div id="page-tally-stmt" class="page-module hidden">
                     <div class="card">
                         <div class="card-header"><span>Ledger Account Statement</span></div>
@@ -417,7 +421,7 @@
                     </div>
                 </div>
 
-                <!-- 12. AI BUSINESS ASSISTANT -->
+                <!-- 12. AI ASSISTANT -->
                 <div id="page-ai-assistant" class="page-module hidden">
                     <div class="card full-w" style="display:flex; flex-direction:column; height: calc(100vh - 150px);">
                         <div class="card-header"><span><i class="fa-solid fa-robot" style="color:var(--cyan);"></i> AI Business Assistant & Advisor</span></div>
@@ -842,159 +846,63 @@
         };
 
         // ==========================================
-        // 5. ERP MODULES & KIOSK
+        // 5. AUTHENTICATION & SECRET LOGIN FIX
         // ==========================================
-        window.quoteCart = [];
-        window.addQuoteSelectedItem = () => {
-            let sel = document.getElementById('quote_item_select'); let qty = Number(document.getElementById('quote_item_qty').value) || 1; let rate = Number(document.getElementById('quote_item_rate').value) || 100;
-            window.quoteCart.push({ name: sel.value, qty, rate, total: qty * rate });
-            window.renderQuoteTable();
-        };
-        window.renderQuoteTable = () => {
-            let tbody = document.getElementById('quote_selected_items_tbody'); let gTotal = 0;
-            tbody.innerHTML = window.quoteCart.map((it, i) => { gTotal += it.total; return `<tr><td>${it.name}</td><td style="text-align:center;">${it.qty}</td><td>₹${it.rate}</td><td>₹${it.total}</td><td><button class="btn btn-danger" style="height:26px; font-size:9px;" onclick="window.quoteCart.splice(${i},1); window.renderQuoteTable();">Del</button></td></tr>`; }).join('');
-            document.getElementById('quote_gross_total').innerText = `₹${gTotal}`;
-        };
-        window.generateAndPrintQuote = () => {
-            let name = document.getElementById('quote_cname').value.trim(); if(!name || window.quoteCart.length === 0) { window.showToast("Enter customer name & items", "error"); return; }
-            let sName = localStorage.getItem('erp_shop_name_' + window.currentBranch) || window.currentBranch.replace(/_/g, ' ');
-            let html = `<div style="font-family: Arial; padding: 25px; background:#fff; color:#000;">
-                <h2 style="text-align:center;">${sName}</h2><p style="text-align:center; font-weight:bold;">QUOTATION / ESTIMATE</p><hr>
-                <p><b>Customer:</b> ${name} | <b>Date:</b> ${document.getElementById('quote_out').value}</p>
-                <table style="width:100%; border-collapse:collapse; margin-top:15px; font-size:12px;">
-                    <tr style="background:#f1f5f9; border-bottom:2px solid #000;"><th style="padding:8px;">Item</th><th style="padding:8px;">Qty</th><th style="padding:8px;">Rate</th><th style="padding:8px;">Amount</th></tr>
-                    ${window.quoteCart.map(it => `<tr><td style="padding:8px; border-bottom:1px solid #ddd;">${it.name}</td><td style="padding:8px; border-bottom:1px solid #ddd;">${it.qty}</td><td style="padding:8px; border-bottom:1px solid #ddd;">₹${it.rate}</td><td style="padding:8px; border-bottom:1px solid #ddd;">₹${it.total}</td></tr>`).join('')}
-                </table>
-                <h3 style="text-align:right; margin-top:15px;">Total Estimate: ${document.getElementById('quote_gross_total').innerText}</h3>
-            </div>`;
-            document.getElementById('modal_invoice_render_area').innerHTML = html;
-            document.getElementById('digital-invoice-modal').classList.remove('hidden');
+        window.showToast = (m, t='success') => { 
+            let d = document.getElementById('toast-msg'); if(!d) return; 
+            d.className = `toast ${t === 'error' ? 'toast-error' : ''}`; 
+            d.innerHTML = t === 'success' ? `✅ ${m}` : `⚠️ ${m}`; 
+            d.classList.add('show'); setTimeout(() => d.classList.remove('show'), 2500); 
         };
 
-        window.kioskCart = [];
-        window.addKioskSelectedItem = () => {
-            let sel = document.getElementById('k_item_select'); let qty = Number(document.getElementById('k_item_qty').value) || 1;
-            window.kioskCart.push({ name: sel.value, qty });
-            let tbody = document.getElementById('kiosk_selected_items_tbody');
-            tbody.innerHTML = window.kioskCart.map((it, i) => `<tr><td>${it.name}</td><td style="text-align:center;">${it.qty}</td><td><button class="btn btn-danger" style="height:26px; font-size:9px;" onclick="window.kioskCart.splice(${i},1); window.addKioskSelectedItem();">Del</button></td></tr>`).join('');
+        window.handleLogoTapSecret = () => { 
+            let m = document.getElementById('unified-login-modal'); 
+            if(m) m.classList.remove('hidden'); 
         };
-        window.updateKioskQRCode = (amt) => {
-            let qrEl = document.getElementById('kiosk_upi_qrcode'); qrEl.innerHTML = '';
-            new QRCode(qrEl, { text: `upi://pay?pa=shardpatel@upi&pn=Enterprise&am=${amt||0}&cu=INR`, width: 130, height: 130 });
-        };
-        window.submitKioskBooking = () => {
-            let name = document.getElementById('k_cname').value.trim(); if(!name) { window.showToast("Customer name required!", "error"); return; }
-            let bks = window.loadBookings(); let newId = bks.length + 1001;
-            bks.push({ id: newId, name: name, mob: document.getElementById('k_cmob').value, outDate: document.getElementById('k_out').value, status: 'Active', totalPaid: Number(document.getElementById('k_adv').value)||0, items: [...window.kioskCart] });
-            window.saveBookings(bks);
-            document.getElementById('kiosk_display_new_id').innerText = `#${newId}`;
-            document.getElementById('kiosk_success_card').classList.remove('hidden');
-            window.kioskCart = []; document.getElementById('kiosk_selected_items_tbody').innerHTML = '';
-            window.showToast("Booking Registered!");
-        };
-
-        window.activeDispatchBooking = null;
-        window.loadDispatchOrder = () => {
-            let q = document.getElementById('disp_search_inp').value.trim(); let found = window.loadBookings().find(b => String(b.id) === q);
-            if(!found) { window.showToast("Booking not found", "error"); return; }
-            window.activeDispatchBooking = found;
-            document.getElementById('disp_search_box').classList.add('hidden'); document.getElementById('disp_action_box').classList.remove('hidden');
-            document.getElementById('disp_title_ref').innerText = found.id;
-            let tbody = document.getElementById('disp_tbody');
-            tbody.innerHTML = (found.items || []).map(it => `<tr><td>${it.name}</td><td>${it.qty}</td><td><span style="color:var(--success);">Ready</span></td></tr>`).join('');
-        };
-        window.finalizeDispatch = () => { window.showToast("Dispatched Successfully!"); document.getElementById('disp_action_box').classList.add('hidden'); document.getElementById('disp_search_box').classList.remove('hidden'); };
-
-        window.loadReturnOrder = () => {
-            let q = document.getElementById('ret_search_inp').value.trim(); let found = window.loadBookings().find(b => String(b.id) === q);
-            if(!found) { window.showToast("Booking not found", "error"); return; }
-            document.getElementById('ret_search_box').classList.add('hidden'); document.getElementById('ret_action_box').classList.remove('hidden');
-            let tbody = document.getElementById('ret_tbody');
-            tbody.innerHTML = (found.items || []).map(it => `<tr><td>${it.name}</td><td>${it.qty}</td><td><input type="number" value="${it.qty}" style="width:60px; height:30px; text-align:center;"></td></tr>`).join('');
-        };
-        window.finalizeReturnInspection = () => { window.showToast("Return Inspection Complete!"); document.getElementById('ret_action_box').classList.add('hidden'); document.getElementById('ret_search_box').classList.remove('hidden'); };
-
-        window.saveMergedStaffPayroll = () => {
-            let name = document.getElementById('pay_name').value.trim(); let pin = document.getElementById('pay_pin').value.trim(); let branch = document.getElementById('pay_branch').value;
-            let role = document.getElementById('pay_role').value || 'Staff'; let mob = document.getElementById('pay_mob').value;
-            if(!name || pin.length !== 4) { window.showToast("Name and 4-digit PIN required", "error"); return; }
-            
-            let masterList = JSON.parse(localStorage.getItem('erp_staff_master_list') || '[]');
-            masterList.push({ name, pin, branch, role, mob });
-            localStorage.setItem('erp_staff_master_list', JSON.stringify(masterList));
-            
-            let html = `<div style="text-align:center; border:2px solid #000; padding:15px; border-radius:12px; background:#fff; width:260px; margin:0 auto;">
-                <h3 style="margin:0; font-family:'Cinzel',serif; font-size:14px; color:#000;">EMPLOYEE ID CARD</h3>
-                <p style="font-size:10px; margin:2px 0 10px 0; color:#555;">${branch.replace(/_/g,' ')}</p>
-                <div style="width:65px; height:65px; background:#e2e8f0; border-radius:50%; margin:0 auto 10px auto; display:flex; align-items:center; justify-content:center; font-size:22px;"><i class="fa-solid fa-user"></i></div>
-                <h4 style="margin:0; font-size:14px; color:#000;">${name}</h4>
-                <p style="font-size:11px; margin:2px 0; font-weight:bold; color:#0284c7;">${role}</p>
-                <p style="font-size:11px; margin:2px 0;">Mob: ${mob || '-'}</p>
-                <hr style="margin:10px 0;">
-                <p style="font-size:9px; color:#666;">Authorized Signatory<br><b>SHARD PATEL ENTERPRISES</b></p>
-            </div>`;
-            document.getElementById('id_card_render_area').innerHTML = html;
-            document.getElementById('staff-id-modal').classList.remove('hidden');
-            window.renderStaffTable();
-            window.showToast("Staff Registered & ID Generated!");
-        };
-
-        window.renderStaffTable = () => {
-            let masterList = JSON.parse(localStorage.getItem('erp_staff_master_list') || '[]');
-            let tbody = document.getElementById('tbl-merged-payroll');
-            if(tbody) tbody.innerHTML = masterList.map((s, i) => `<tr><td><b>${s.name}</b></td><td>${s.role}</td><td>${s.branch.replace(/_/g,' ')}</td><td><button class="btn btn-danger" style="height:26px; font-size:9px;" onclick="let d=JSON.parse(localStorage.getItem('erp_staff_master_list')); d.splice(${i},1); localStorage.setItem('erp_staff_master_list', JSON.stringify(d)); window.renderStaffTable();">Del</button></td></tr>`).join('') || '<tr><td colspan="4" style="text-align:center;">No staff registered.</td></tr>';
-        };
-
-        window.renderSuperAdminDash = () => {
-            let tbody = document.getElementById('tbl-superadmin-dash');
-            let totalNetWorth = 0; let html = '';
-            window.erpBranches.forEach(branch => {
-                let bks = JSON.parse(localStorage.getItem(`erp_data_${window.currentBizMode}_${branch}_bks`) || '[]');
-                let rev = bks.reduce((a, b) => a + (Number(b.totalPaid)||0), 0);
-                totalNetWorth += rev;
-                html += `<tr><td><b>${branch.replace(/_/g, ' ')}</b></td><td style="text-align:center;">${bks.length}</td><td style="text-align:right; color:var(--success); font-weight:bold;">₹${rev}</td></tr>`;
-            });
-            if(tbody) tbody.innerHTML = html;
-            let nwEl = document.getElementById('superadmin_net_worth'); if(nwEl) nwEl.innerText = `₹${totalNetWorth}`;
-        };
-
-        window.loadInvForBranch = (b) => { return JSON.parse(localStorage.getItem(`erp_data_${window.currentBizMode}_${b}_inv`) || '[]'); };
-        window.saveInvForBranch = (b, d) => { localStorage.setItem(`erp_data_${window.currentBizMode}_${b}_inv`, JSON.stringify(d)); };
         
-        window.executeStockTransfer = () => {
-            let fromB = window.currentBranch, toB = document.getElementById('transfer_to').value, itemN = document.getElementById('transfer_item').value, qty = Number(document.getElementById('transfer_qty').value) || 0;
-            if(fromB === toB || !itemN || qty <= 0) { window.showToast("Invalid transfer parameters", "error"); return; }
-            let invFrom = window.loadInvForBranch(fromB), invTo = window.loadInvForBranch(toB);
-            let fIdx = invFrom.findIndex(i => i.name === itemN);
-            if(fIdx < 0 || invFrom[fIdx].qty < qty) { window.showToast("Insufficient stock in source branch!", "error"); return; }
-            invFrom[fIdx].qty -= qty;
-            let tIdx = invTo.findIndex(i => i.name === itemN);
-            if(tIdx >= 0) invTo[tIdx].qty += qty; else invTo.push({ name: itemN, qty, rent: invFrom[fIdx].rent });
-            window.saveInvForBranch(fromB, invFrom); window.saveInvForBranch(toB, invTo);
-            window.showToast("Stock Transferred Successfully!"); window.applyBusinessContext();
-        };
-
         window.processUnifiedAuth = () => {
-            let val = document.getElementById('unified_pin').value.trim();
-            let adminP1 = localStorage.getItem('erp_admin_pass1') || "812072", adminP2 = localStorage.getItem('erp_admin_pass2') || "D812072";
-            let staff = JSON.parse(localStorage.getItem('erp_staff_master_list') || '[]').find(s => s.pin === val);
+            let pinEl = document.getElementById('unified_pin'); if(!pinEl) return;
+            let val = pinEl.value.trim();
+            
+            let adminP1 = localStorage.getItem('erp_admin_pass1') || "812072";
+            let adminP2 = localStorage.getItem('erp_admin_pass2') || "D812072";
+            
+            let masterStaffList = JSON.parse(localStorage.getItem('erp_staff_master_list') || '[]');
+            let matchedStaff = masterStaffList.find(s => s.pin === val);
 
             if(val === adminP1 || val === adminP2) {
                 document.getElementById('global_branch_selector').disabled = false;
                 document.querySelectorAll('.admin-restricted-menu').forEach(el => el.style.display = 'flex');
-                document.getElementById('unified-login-modal').classList.add('hidden'); document.getElementById('kiosk-app').classList.add('hidden'); document.getElementById('admin-app').classList.remove('hidden');
-                window.navigate('page-dash', document.querySelector('.menu-item')); window.showToast("Admin Access Granted!");
-            } else if(staff) {
-                window.switchGlobalBranch(staff.branch);
+                
+                document.getElementById('unified-login-modal').classList.add('hidden');
+                document.getElementById('kiosk-app').classList.add('hidden');
+                document.getElementById('admin-app').classList.remove('hidden');
+                window.navigate('page-dash', document.querySelector('.menu-item'));
+                pinEl.value = ""; window.showToast("Admin Access Granted!");
+            } else if(matchedStaff) {
+                window.switchGlobalBranch(matchedStaff.branch);
                 document.getElementById('global_branch_selector').disabled = true;
                 document.querySelectorAll('.admin-restricted-menu').forEach(el => el.style.display = 'none');
-                document.getElementById('unified-login-modal').classList.add('hidden'); document.getElementById('kiosk-app').classList.add('hidden'); document.getElementById('admin-app').classList.remove('hidden');
-                window.navigate('page-dash', document.querySelector('.menu-item')); window.showToast(`Welcome ${staff.name}!`);
-            } else { window.showToast("Invalid PIN!", "error"); }
+                
+                document.getElementById('unified-login-modal').classList.add('hidden');
+                document.getElementById('kiosk-app').classList.add('hidden');
+                document.getElementById('admin-app').classList.remove('hidden');
+                window.navigate('page-dash', document.querySelector('.menu-item'));
+                pinEl.value = ""; window.showToast(`Welcome ${matchedStaff.name}!`);
+            } else {
+                window.showToast("Invalid PIN! Try 812072", "error"); 
+                pinEl.value = "";
+            }
         };
 
-        window.logoutToKiosk = () => { document.getElementById('admin-app').classList.add('hidden'); document.getElementById('kiosk-app').classList.remove('hidden'); document.getElementById('global_branch_selector').disabled = false; };
+        window.logoutToKiosk = () => { 
+            document.getElementById('admin-app').classList.add('hidden'); 
+            document.getElementById('kiosk-app').classList.remove('hidden'); 
+            document.getElementById('global_branch_selector').disabled = false; 
+        };
+
         window.toggleSidebar = () => { document.querySelector('.sidebar').classList.toggle('active'); };
+        
         window.navigate = (pid, el) => { 
             document.querySelectorAll('.menu-item').forEach(i => i.classList.remove('active')); if(el) el.classList.add('active'); 
             document.querySelectorAll('.page-module').forEach(p => p.classList.add('hidden')); document.getElementById(pid).classList.remove('hidden'); 
@@ -1036,6 +944,7 @@
             }
         };
 
+        // Billing & GST API
         window.activeBillBooking = null; window.billGrossTotal = 0;
         window.loadBillOrder = () => {
             let q = document.getElementById('bill_search_inp').value.trim(); let found = window.loadBookings().find(b => String(b.id) === q);
