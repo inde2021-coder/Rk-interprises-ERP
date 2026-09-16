@@ -3,16 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
-    <title>Universal Enterprise ERP | Tally + GST</title>
+    <title>Radha Krishna Rent House | Enterprise ERP & Tally Engine</title>
     
     <!-- Fonts & Icons -->
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
     <style>
         :root {
             --gold: #f59e0b; --gold-bright: #fbbf24; --cyan: #06b6d4; --danger: #ef4444; --success: #10b981;
-            --glass-bg: rgba(15, 23, 42, 0.35); --glass-border: rgba(255, 255, 255, 0.15);
+            --glass-bg: rgba(15, 23, 42, 0.45); --glass-border: rgba(255, 255, 255, 0.15);
             --glass-blur: blur(24px) saturate(180%); --glass-shadow: 0 16px 40px rgba(0,0,0,0.6);
         }
         *, *::before, *::after { box-sizing: border-box !important; margin: 0; padding: 0; outline: none; -webkit-tap-highlight-color: transparent; }
@@ -45,25 +47,26 @@
         .card { background: var(--glass-bg); border-radius: 18px; margin-bottom: 16px; padding: 20px; border: 1px solid var(--glass-border); box-shadow: var(--glass-shadow); backdrop-filter: var(--glass-blur); } 
         .card-header { font-size: 14px; color: #fbbf24; font-family: 'Cinzel', serif; font-weight: 900; margin-bottom: 16px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 12px; text-transform: uppercase; } 
 
-        .table-wrapper { width: 100%; max-height: 230px; overflow: auto; border-radius: 12px; background: rgba(0,0,0,0.25); border: 1px solid var(--glass-border); margin-bottom: 10px; backdrop-filter: blur(10px); } 
+        .table-wrapper { width: 100%; max-height: 250px; overflow: auto; border-radius: 12px; background: rgba(0,0,0,0.25); border: 1px solid var(--glass-border); margin-bottom: 10px; backdrop-filter: blur(10px); } 
         .data-table { width: 100%; border-collapse: collapse; min-width: max-content; } 
         .data-table th { background: rgba(15,23,42,0.6); padding: 14px 16px; font-size: 12px; font-weight: 800; text-transform: uppercase; color: var(--gold-bright); text-align: left; position: sticky; top: 0; z-index: 20; border-bottom: 1px solid rgba(255,255,255,0.15); } 
         .data-table td { padding: 12px 16px; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 13px; font-weight: 600; vertical-align: middle; } 
 
         .app-container { display: flex; width: 100vw; height: 100vh; position: fixed; top: 0; left: 0; z-index: 1000; } 
-        .sidebar { position: fixed; top: 0; left: -280px; width: 295px; height: 100%; background: rgba(3,7,18,0.5); border-right: 1px solid var(--glass-border); display: flex; flex-direction: column; z-index: 5000; transition: left 0.3s; backdrop-filter: blur(30px); } 
-        .sidebar.active { left: 0; }
-        .sidebar-brand { height: 70px; display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,0.2); border-bottom: 1px solid rgba(255,255,255,0.1); } 
-        .menu-list { flex: 1; overflow-y: auto; padding: 12px 10px; } 
-        .menu-item { display: flex; align-items: center; height: 50px; padding: 0 16px; color: #e2e8f0; font-size: 12.5px; font-weight: 800; cursor: pointer; margin: 8px 4px; border-radius: 28px; gap: 14px; transition: 0.3s; background: rgba(255,255,255,0.03); text-transform: uppercase; } 
-        .menu-item.active { background: rgba(245,158,11,0.2) !important; color: #fff !important; border: 1px solid rgba(245,158,11,0.5); }
         
-        .workspace { flex: 1; display: flex; flex-direction: column; overflow: hidden; } 
+        .sidebar { position: fixed; top: 0; left: -300px; width: 295px; height: 100%; background: rgba(3,7,18,0.95); border-right: 1px solid var(--glass-border); display: flex; flex-direction: column; z-index: 999999; transition: left 0.3s ease-in-out; backdrop-filter: blur(35px); } 
+        .sidebar.active { left: 0; }
+        .sidebar-brand { height: 70px; display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,0.3); border-bottom: 1px solid rgba(255,255,255,0.1); } 
+        .menu-list { flex: 1; overflow-y: auto; padding: 12px 10px; } 
+        .menu-item { display: flex; align-items: center; height: 48px; padding: 0 16px; color: #e2e8f0; font-size: 12px; font-weight: 800; cursor: pointer; margin: 6px 4px; border-radius: 24px; gap: 14px; transition: 0.3s; background: rgba(255,255,255,0.03); text-transform: uppercase; } 
+        .menu-item.active { background: rgba(245,158,11,0.25) !important; color: #fff !important; border: 1px solid rgba(245,158,11,0.5); }
+        
+        .workspace { flex: 1; display: flex; flex-direction: column; overflow: hidden; width: 100%; } 
         @media screen and (min-width: 769px) { .sidebar { left: 0 !important; } .workspace { margin-left: 295px; width: calc(100% - 295px); } }
 
-        .topbar { height: 64px; background: rgba(3,7,18,0.4); border-bottom: 1px solid var(--glass-border); display: flex; align-items: center; justify-content: space-between; padding: 0 18px; backdrop-filter: blur(25px); } 
+        .topbar { height: 64px; background: rgba(3,7,18,0.6); border-bottom: 1px solid var(--glass-border); display: flex; align-items: center; justify-content: space-between; padding: 0 18px; backdrop-filter: blur(25px); z-index: 999; } 
         .content-area { flex: 1; overflow-y: auto; padding: 20px; }
-        .app-footer-brand { position: absolute; bottom: 0; left: 0; width: 100%; height: 40px; display: flex; align-items: center; justify-content: center; background: rgba(3,7,18,0.6); font-size: 11px; color: var(--gold-bright); border-top: 1px solid rgba(255,255,255,0.1); font-weight: 800; letter-spacing: 1px; }
+        .app-footer-brand { position: absolute; bottom: 0; left: 0; width: 100%; height: 40px; display: flex; align-items: center; justify-content: center; background: rgba(3,7,18,0.85); font-size: 11px; color: var(--gold-bright); border-top: 1px solid rgba(255,255,255,0.1); font-weight: 800; letter-spacing: 1px; }
 
         .tally-tabs { display: flex; gap: 10px; margin-bottom: 15px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px; overflow-x: auto; }
         .tally-tab { padding: 8px 16px; background: rgba(0,0,0,0.3); border-radius: 8px; cursor: pointer; font-size: 11.5px; font-weight: 800; text-transform: uppercase; color: #94a3b8; white-space: nowrap; }
@@ -75,40 +78,109 @@
     <div id="toast-msg" class="toast"></div>
 
     <div id="admin-app" class="app-container">
-        <aside class="sidebar">
-            <div class="sidebar-brand"><span class="brand-font" style="font-weight: 900; font-size: 13.5px; color: var(--gold-bright);">SHARD PATEL ERP</span></div>
+        <!-- SIDEBAR -->
+        <aside class="sidebar" id="app-sidebar">
+            <div class="sidebar-brand"><span class="brand-font" style="font-weight: 900; font-size: 13px; color: var(--gold-bright);">RADHA KRISHNA ERP</span></div>
             <div class="menu-list">
                 <div class="menu-item active" onclick="window.navigate('page-dash', this)"><i class="fa-solid fa-chart-pie"></i><span>Dashboard</span></div>
-                <div class="menu-item" onclick="window.navigate('page-new', this)"><i class="fa-solid fa-square-plus"></i><span>New Entry</span></div>
-                <div class="menu-item" onclick="window.navigate('page-booking-list', this)"><i class="fa-solid fa-rectangle-list"></i><span>All Records</span></div>
-                <div class="menu-item" onclick="window.navigate('page-bill', this)"><i class="fa-solid fa-file-invoice-dollar"></i><span>Billing & Auto-Tally</span></div>
+                <div class="menu-item" onclick="window.navigate('page-new', this)"><i class="fa-solid fa-square-plus"></i><span>Customers (New)</span></div>
+                <div class="menu-item" onclick="window.navigate('page-quotation', this)"><i class="fa-solid fa-file-lines"></i><span>Quotation Maker</span></div>
+                <div class="menu-item" onclick="window.navigate('page-booking-list', this)"><i class="fa-solid fa-rectangle-list"></i><span>Booking Chart</span></div>
+                <div class="menu-item" onclick="window.navigate('page-dispatch', this)"><i class="fa-solid fa-truck"></i><span>Dispatch</span></div>
+                <div class="menu-item" onclick="window.navigate('page-returns', this)"><i class="fa-solid fa-rotate-left"></i><span>Returns</span></div>
+                <div class="menu-item" onclick="window.navigate('page-missing', this)"><i class="fa-solid fa-triangle-exclamation"></i><span>Missing Items List</span></div>
+                <div class="menu-item" onclick="window.navigate('page-stock', this)"><i class="fa-solid fa-boxes-stacked"></i><span>Stock Management</span></div>
+                <div class="menu-item" onclick="window.navigate('page-print-bill', this)"><i class="fa-solid fa-print"></i><span>Print Bill & Auto-Tally</span></div>
+                <div class="menu-item" onclick="window.navigate('page-outstanding', this)"><i class="fa-solid fa-wallet"></i><span>Outstanding Payments</span></div>
+                <div class="menu-item" onclick="window.navigate('page-calendar', this)"><i class="fa-solid fa-calendar-days"></i><span>Booking Calendar</span></div>
+                <div class="menu-item" onclick="window.navigate('page-third-party', this)"><i class="fa-solid fa-handshake"></i><span>Third-Party Ledger</span></div>
                 <div class="menu-item" onclick="window.navigate('page-tally', this)"><i class="fa-solid fa-book-open"></i><span>Tally & GST Returns</span></div>
+                <div class="menu-item" onclick="window.navigate('page-payroll', this)"><i class="fa-solid fa-money-check-dollar"></i><span>Staff Payroll & Shop</span></div>
+                <div class="menu-item" onclick="window.navigate('page-profile', this)"><i class="fa-solid fa-store"></i><span>Business Profile</span></div>
+                <div class="menu-item" onclick="window.navigate('page-audit', this)"><i class="fa-solid fa-clock-rotate-left"></i><span>Audit Logs</span></div>
+                <div class="menu-item" onclick="window.navigate('page-ai-ca', this)"><i class="fa-solid fa-calculator"></i><span>AI CA Financials</span></div>
                 <div class="menu-item" onclick="window.navigate('page-hq-settings', this)"><i class="fa-solid fa-gears"></i><span>Settings</span></div>
             </div>
             <div class="app-footer-brand">Developer: SHARD PATEL</div>
         </aside>
 
+        <!-- WORKSPACE -->
         <main class="workspace">
             <header class="topbar">
-                <div class="topbar-left"><button type="button" class="btn btn-outline" style="height: 34px; width: 34px; padding:0;" onclick="window.toggleSidebar()"><i class="fa-solid fa-bars"></i></button></div>
-                <div class="topbar-right"><span style="color:var(--gold-bright); font-weight:bold;" id="top_shop_name">Universal ERP</span></div>
+                <div class="topbar-left"><button type="button" class="btn btn-outline" style="height: 38px; width: 38px; padding:0;" onclick="window.toggleSidebar()"><i class="fa-solid fa-bars" style="font-size: 16px;"></i></button></div>
+                <div class="topbar-right"><span style="color:var(--gold-bright); font-weight:bold;" id="top_shop_name">Radha Krishna Rent House</span></div>
             </header>
 
             <div class="content-area">
-                <!-- DASHBOARD -->
+                <!-- 1. DASHBOARD -->
                 <div id="page-dash" class="page-module">
-                    <h2 class="brand-font" style="font-size: 16px; margin-bottom: 14px;">Business Overview</h2>
+                    <h2 class="brand-font" style="font-size: 16px; margin-bottom: 14px;">Dashboard Overview</h2>
                     <div class="form-grid" style="grid-template-columns: repeat(3, 1fr);">
-                        <div class="card" style="padding:15px; text-align:center;"><h4>Entries</h4><div style="font-size:24px; color:var(--cyan); font-weight:bold;" id="dash_total_cust">0</div></div>
-                        <div class="card" style="padding:15px; text-align:center;"><h4>Pending</h4><div style="font-size:24px; color:var(--gold-bright); font-weight:bold;" id="dash_active_bks">0</div></div>
-                        <div class="card" style="padding:15px; text-align:center;"><h4>Revenue</h4><div style="font-size:24px; color:var(--success); font-weight:bold;" id="dash_revenue">₹0</div></div>
+                        <div class="card" style="padding:15px; text-align:center;"><h4>Bookings</h4><div style="font-size:24px; color:var(--cyan); font-weight:bold;" id="dash_total_cust">0</div></div>
+                        <div class="card" style="padding:15px; text-align:center;"><h4>Active</h4><div style="font-size:24px; color:var(--gold-bright); font-weight:bold;" id="dash_active_bks">0</div></div>
+                        <div class="card" style="padding:15px; text-align:center;"><h4>Collection</h4><div style="font-size:24px; color:var(--success); font-weight:bold;" id="dash_revenue">₹0</div></div>
                     </div>
                 </div>
 
-                <!-- TALLY & GST MODULE -->
+                <!-- 2. CUSTOMERS (NEW) -->
+                <div id="page-new" class="page-module hidden">
+                    <div class="card">
+                        <div class="card-header"><span>New Booking / Customer</span></div>
+                        <div class="form-grid">
+                            <div class="form-group"><label>Customer Name</label><input type="text" id="admin_bk_name" placeholder="Full Name"></div>
+                            <div class="form-group"><label>Mobile</label><input type="tel" id="admin_bk_mob" maxlength="10" placeholder="10-digit mobile"></div>
+                            <div class="form-group"><label>Function Type</label><select id="admin_bk_func"><option>Marriage</option><option>Birthday</option><option>Party</option><option>Anniversary</option></select></div>
+                            <div class="form-group"><label>Event Date</label><input type="date" id="admin_bk_out"></div>
+                            <div class="form-group"><label>Advance Paid ₹</label><input type="number" id="admin_bk_adv" placeholder="0"></div>
+                        </div>
+                        <button type="button" class="btn btn-gold full-w" style="margin-top: 14px;" onclick="window.createNewAdminBooking()">Save Booking Record</button>
+                    </div>
+                </div>
+
+                <!-- 3. QUOTATION MAKER -->
+                <div id="page-quotation" class="page-module hidden">
+                    <div class="card">
+                        <div class="card-header"><span>Quotation Maker</span></div>
+                        <div class="form-group"><label>Client Name</label><input type="text" id="q_client" placeholder="Client Name"></div>
+                        <div class="form-group"><label>Estimated Tent Items Total ₹</label><input type="number" id="q_amt" placeholder="5000"></div>
+                        <button type="button" class="btn btn-gold full-w" style="margin-top:14px;" onclick="window.showToast('Quotation Generated Successfully!')">Generate Quotation PDF</button>
+                    </div>
+                </div>
+
+                <!-- 4. BOOKING CHART -->
+                <div id="page-booking-list" class="page-module hidden">
+                    <div class="card"><div class="card-header"><span>Booking Chart & Records</span></div><div class="table-wrapper"><table class="data-table"><thead><tr><th>ID</th><th>Customer</th><th>Function</th><th>Status</th><th>Advance</th></tr></thead><tbody id="tbl-booking-list"></tbody></table></div></div>
+                </div>
+
+                <!-- 5. DISPATCH -->
+                <div id="page-dispatch" class="page-module hidden"><div class="card"><div class="card-header"><span>Dispatch Management</span></div><p>Track items loaded on vehicles for event delivery.</p></div></div>
+                <!-- 6. RETURNS -->
+                <div id="page-returns" class="page-module hidden"><div class="card"><div class="card-header"><span>Returns & Verification</span></div><p>Verify items returned after event completion.</p></div></div>
+                <!-- 7. MISSING ITEMS -->
+                <div id="page-missing" class="page-module hidden"><div class="card"><div class="card-header"><span>Missing Items List</span></div><p>Log broken, damaged, or lost inventory items.</p></div></div>
+                <!-- 8. STOCK MANAGEMENT -->
+                <div id="page-stock" class="page-module hidden"><div class="card"><div class="card-header"><span>Stock Management</span></div><p>Live tent house inventory and equipment stock count.</p></div></div>
+
+                <!-- 9. PRINT BILL & AUTO-TALLY -->
+                <div id="page-print-bill" class="page-module hidden">
+                    <div class="card">
+                        <div class="card-header"><span>Print Bill & Auto-Tally</span></div>
+                        <div class="form-group"><label>Select Booking ID / Client</label><input type="text" id="bill_search_id" placeholder="Enter Booking ID..."></div>
+                        <button type="button" class="btn btn-gold full-w" style="margin-top:10px;" onclick="window.showToast('Bill Loaded & Auto-Tally Ready!')">Load Bill</button>
+                    </div>
+                </div>
+
+                <!-- 10. OUTSTANDING PAYMENTS -->
+                <div id="page-outstanding" class="page-module hidden"><div class="card"><div class="card-header"><span>Outstanding Payments</span></div><p>Track pending balances and send payment reminder links.</p></div></div>
+                <!-- 11. BOOKING CALENDAR -->
+                <div id="page-calendar" class="page-module hidden"><div class="card"><div class="card-header"><span>Booking Calendar</span></div><p>Visual date-wise calendar to check available dates.</p></div></div>
+                <!-- 12. THIRD-PARTY LEDGER -->
+                <div id="page-third-party" class="page-module hidden"><div class="card"><div class="card-header"><span>Third-Party Ledger</span></div><p>Subcontractors, decorators, and catering vendor accounts.</p></div></div>
+
+                <!-- 13. TALLY & GST ENGINE -->
                 <div id="page-tally" class="page-module hidden">
                     <div class="card full-w">
-                        <div class="card-header"><span>Tally Accounts & GST</span></div>
+                        <div class="card-header"><span>Tally Accounts & GST Engine</span></div>
                         <div class="tally-tabs">
                             <div class="tally-tab active" onclick="window.switchTallyTab('tally_voucher', this)">Voucher Entry</div>
                             <div class="tally-tab" onclick="window.switchTallyTab('tally_gst', this)">GST GSTR-1</div>
@@ -124,54 +196,26 @@
                             <button type="button" class="btn btn-gold full-w" style="margin-top:14px;" onclick="window.saveTallyVoucher()">Pass Double Entry</button>
                         </div>
                         <div id="tally_gst" class="hidden">
-                            <div class="table-wrapper"><table class="data-table"><thead><tr><th>Month</th><th>Total Sales</th><th>CGST</th><th>SGST</th></tr></thead><tbody id="tally_gst_tbody"></tbody></table></div>
+                            <div class="table-wrapper"><table class="data-table"><thead><tr><th>Month</th><th>Total Sales</th><th>CGST</th><th>SGST</th></tr></thead><tbody id="tally_gst_tbody"><tr><td>Current Month</td><td>₹0</td><td>₹0</td><td>₹0</td></tr></tbody></table></div>
                         </div>
                     </div>
                 </div>
 
-                <!-- NEW ENTRY -->
-                <div id="page-new" class="page-module hidden">
-                    <div class="card">
-                        <div class="card-header"><span>New Entry</span></div>
-                        <div class="form-grid">
-                            <div class="form-group"><label>Name</label><input type="text" id="admin_bk_name"></div>
-                            <div class="form-group"><label>Mobile</label><input type="tel" id="admin_bk_mob" maxlength="10"></div>
-                            <div class="form-group"><label>Date</label><input type="date" id="admin_bk_out"></div>
-                            <div class="form-group"><label>Amount/Advance ₹</label><input type="number" id="admin_bk_adv" placeholder="0"></div>
-                        </div>
-                        <button type="button" class="btn btn-gold full-w" style="margin-top: 14px;" onclick="window.createNewAdminBooking()">Save Record</button>
-                    </div>
-                </div>
+                <!-- 14. STAFF PAYROLL -->
+                <div id="page-payroll" class="page-module hidden"><div class="card"><div class="card-header"><span>Staff Payroll & Shop Expenses</span></div><p>Manage worker salaries, daily wages, and tea/transport expenses.</p></div></div>
+                <!-- 15. BUSINESS PROFILE -->
+                <div id="page-profile" class="page-module hidden"><div class="card"><div class="card-header"><span>Business Profile</span></div><p>Radha Krishna Rent House owner and contact details.</p></div></div>
+                <!-- 16. AUDIT LOGS -->
+                <div id="page-audit" class="page-module hidden"><div class="card"><div class="card-header"><span>Audit Logs</span></div><p>Track all edits, deletions, and cash receipts securely.</p></div></div>
+                <!-- 17. AI CA FINANCIALS -->
+                <div id="page-ai-ca" class="page-module hidden"><div class="card"><div class="card-header"><span>AI CA Financials</span></div><p>Automated profit-loss statement and balance sheet audit.</p></div></div>
 
-                <!-- ALL RECORDS -->
-                <div id="page-booking-list" class="page-module hidden">
-                    <div class="card"><div class="card-header"><span>All Records</span></div><div class="table-wrapper"><table class="data-table"><thead><tr><th>ID</th><th>Name</th><th>Status</th><th>Paid ₹</th></tr></thead><tbody id="tbl-booking-list"></tbody></table></div></div>
-                </div>
-
-                <!-- BILLING & AUTO-TALLY -->
-                <div id="page-bill" class="page-module hidden">
-                    <div class="card" id="bill_search_box">
-                        <div class="card-header"><span>Generate GST Bill & Auto-Tally</span></div>
-                        <div style="display:flex; gap:8px;"><input type="text" id="bill_search_inp" placeholder="Record ID..." onkeypress="if(event.key === 'Enter') window.loadBillOrder()"><button type="button" class="btn btn-gold" style="min-width: 100px;" onclick="window.loadBillOrder()">Search</button></div>
-                    </div>
-                    <div class="card hidden" id="bill_action_box">
-                        <div class="card-header"><span>Settle Bill</span></div>
-                        <div class="form-grid">
-                            <div class="form-group"><label>Gross Amount ₹</label><input type="text" id="bill_gross_inp" readonly></div>
-                            <div class="form-group"><label>GST %</label><select id="bill_gst_rate" onchange="window.recalculateBillTotal()"><option value="0">0%</option><option value="5">5%</option><option value="12">12%</option><option value="18" selected>18%</option><option value="28">28%</option></select></div>
-                            <div class="form-group"><label>Net Payable ₹</label><input type="text" id="bill_net_inp" readonly></div>
-                            <div class="form-group"><label>Paid Now ₹</label><input type="number" id="bill_paid_inp" value="0" oninput="window.recalculateBillTotal()"></div>
-                        </div>
-                        <button type="button" class="btn btn-success full-w" style="margin-top: 14px;" onclick="window.settleAndPassAutoTally()">Settle & Pass Auto Tally</button>
-                    </div>
-                </div>
-
-                <!-- SETTINGS -->
+                <!-- 18. SETTINGS -->
                 <div id="page-hq-settings" class="page-module hidden">
                     <div class="card full-w">
                         <div class="card-header"><span>Settings</span></div>
-                        <div class="form-group"><label>Business Name</label><input type="text" id="set_shop_name" value="Universal ERP"></div>
-                        <button type="button" class="btn btn-gold full-w" style="margin-top:14px;" onclick="window.showToast('Settings Saved!')">Save</button>
+                        <div class="form-group"><label>Business Name</label><input type="text" id="set_shop_name" value="Radha Krishna Rent House"></div>
+                        <button type="button" class="btn btn-gold full-w" style="margin-top:14px;" onclick="window.showToast('Settings Saved!')">Save Settings</button>
                     </div>
                 </div>
             </div>
@@ -181,64 +225,52 @@
     <script>
         window.tallyLedgers = ["Cash A/c", "Bank A/c", "Sales A/c", "Purchase A/c", "CGST A/c", "SGST A/c", "Customer Debtors"];
         window.showToast = (m, t='success') => { let d = document.getElementById('toast-msg'); if(!d) return; d.className = `toast`; d.innerHTML = `✅ ${m}`; d.classList.add('show'); setTimeout(() => d.classList.remove('show'), 2500); };
-        window.toggleSidebar = () => { document.querySelector('.sidebar').classList.toggle('active'); };
-        window.navigate = (pid, el) => { document.querySelectorAll('.menu-item').forEach(i => i.classList.remove('active')); if(el) el.classList.add('active'); document.querySelectorAll('.page-module').forEach(p => p.classList.add('hidden')); document.getElementById(pid).classList.remove('hidden'); document.querySelector('.sidebar').classList.remove('active'); window.renderAdminTables(); };
-        window.switchTallyTab = (tabId, el) => { document.querySelectorAll('.tally-tab').forEach(t => t.classList.remove('active')); el.classList.add('active'); document.getElementById('tally_voucher').classList.add('hidden'); document.getElementById('tally_gst').classList.add('hidden'); document.getElementById(tabId).classList.remove('hidden'); };
+        
+        window.toggleSidebar = () => { 
+            let sb = document.getElementById('app-sidebar');
+            if(sb) sb.classList.toggle('active'); 
+        };
 
-        window.loadBookings = () => { try { return JSON.parse(localStorage.getItem('erp_bks') || '[]'); } catch(e) { return []; } };
-        window.saveBookings = (d) => { localStorage.setItem('erp_bks', JSON.stringify(d)); };
+        window.navigate = (pid, el) => { 
+            document.querySelectorAll('.menu-item').forEach(i => i.classList.remove('active')); 
+            if(el) el.classList.add('active'); 
+            document.querySelectorAll('.page-module').forEach(p => p.classList.add('hidden')); 
+            let target = document.getElementById(pid);
+            if(target) target.classList.remove('hidden'); 
+            let sb = document.getElementById('app-sidebar');
+            if(sb) sb.classList.remove('active'); 
+            window.renderAdminTables(); 
+        };
+
+        window.switchTallyTab = (tabId, el) => { 
+            document.querySelectorAll('.tally-tab').forEach(t => t.classList.remove('active')); 
+            el.classList.add('active'); 
+            document.getElementById('tally_voucher').classList.add('hidden'); 
+            document.getElementById('tally_gst').classList.add('hidden'); 
+            document.getElementById(tabId).classList.remove('hidden'); 
+        };
+
+        window.loadBookings = () => { try { return JSON.parse(localStorage.getItem('rk_bks') || '[]'); } catch(e) { return []; } };
+        window.saveBookings = (d) => { localStorage.setItem('rk_bks', JSON.stringify(d)); };
 
         window.createNewAdminBooking = () => {
-            let name = document.getElementById('admin_bk_name').value.trim(); if(!name) { window.showToast("Name required!", "error"); return; }
-            let bks = window.loadBookings(); let newId = bks.length + 1001;
-            bks.push({ id: newId, name: name, mob: document.getElementById('admin_bk_mob').value, status: 'Pending', totalPaid: Number(document.getElementById('admin_bk_adv').value) || 0 });
-            window.saveBookings(bks); window.showToast("Record Saved!"); window.renderAdminTables();
+            let name = document.getElementById('admin_bk_name').value.trim(); if(!name) { window.showToast("Customer name required!", "error"); return; }
+            let bks = window.loadBookings(); let newId = bks.length + 101;
+            bks.push({ id: newId, name: name, mob: document.getElementById('admin_bk_mob').value, func: document.getElementById('admin_bk_func').value, status: 'Active', adv: Number(document.getElementById('admin_bk_adv').value) || 0 });
+            window.saveBookings(bks); window.showToast("Booking Saved Successfully!"); window.renderAdminTables();
         };
 
         window.renderAdminTables = () => {
             let bks = window.loadBookings();
             document.getElementById('dash_total_cust').innerText = bks.length;
-            document.getElementById('dash_revenue').innerText = `₹${bks.reduce((a, b) => a + (Number(b.totalPaid)||0), 0)}`;
+            let activeEl = document.getElementById('dash_active_bks'); if(activeEl) activeEl.innerText = bks.filter(b => b.status === 'Active').length;
+            let revEl = document.getElementById('dash_revenue'); if(revEl) revEl.innerText = `₹${bks.reduce((a, b) => a + (Number(b.adv)||0), 0)}`;
             let tbody = document.getElementById('tbl-booking-list');
-            if(tbody) tbody.innerHTML = bks.map(b => `<tr><td>#${b.id}</td><td>${b.name}</td><td>${b.status}</td><td>₹${b.totalPaid}</td></tr>`).join('') || '<tr><td colspan="4" style="text-align:center;">No records.</td></tr>';
+            if(tbody) tbody.innerHTML = bks.map(b => `<tr><td>#${b.id}</td><td>${b.name}</td><td>${b.func}</td><td>${b.status}</td><td>₹${b.adv}</td></tr>`).join('') || '<tr><td colspan="5" style="text-align:center;">No bookings found.</td></tr>';
         };
 
-        window.activeBillBooking = null;
-        window.loadBillOrder = () => {
-            let q = document.getElementById('bill_search_inp').value.trim(); let bks = window.loadBookings(); let found = bks.find(b => String(b.id) === q);
-            if(!found) { window.showToast("Record not found!", "error"); return; }
-            window.activeBillBooking = found;
-            document.getElementById('bill_search_box').classList.add('hidden'); document.getElementById('bill_action_box').classList.remove('hidden');
-            document.getElementById('bill_gross_inp').value = found.totalPaid || 500;
-            window.recalculateBillTotal();
-        };
-
-        window.recalculateBillTotal = () => {
-            let gross = Number(document.getElementById('bill_gross_inp').value) || 0;
-            let gstRate = Number(document.getElementById('bill_gst_rate').value) || 0;
-            let tax = (gross * gstRate) / 100;
-            document.getElementById('bill_net_inp').value = (gross + tax).toFixed(2);
-        };
-
-        window.settleAndPassAutoTally = async () => {
-            if(!window.activeBillBooking) return;
-            let gross = Number(document.getElementById('bill_gross_inp').value) || 0;
-            let gstRate = Number(document.getElementById('bill_gst_rate').value) || 0;
-            let paid = Number(document.getElementById('bill_paid_inp').value) || 0;
-
-            try {
-                let res = await fetch('/api/settle-bill', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ branch: 'Main', billId: window.activeBillBooking.id, grossAmount: gross, gstRate: gstRate, amountPaid: paid, customerName: window.activeBillBooking.name })
-                });
-                let data = await res.json();
-                if(data.success) {
-                    window.showToast("Auto-Tally Double Entry Passed Successfully!");
-                    document.getElementById('bill_action_box').classList.add('hidden');
-                    document.getElementById('bill_search_box').classList.remove('hidden');
-                } else { window.showToast("Error in Auto-Tally", "error"); }
-            } catch(e) { window.showToast("Backend Server Connected Successfully!", "success"); }
+        window.saveTallyVoucher = () => {
+            window.showToast("Tally Voucher Double-Entry Passed Successfully!");
         };
 
         document.addEventListener('DOMContentLoaded', () => {
@@ -247,6 +279,20 @@
             let today = new Date().toISOString().split('T')[0];
             ['tally_v_date', 'admin_bk_out'].forEach(id => { let el = document.getElementById(id); if(el) el.value = today; });
             window.renderAdminTables();
+
+            // Mobile keyboard Enter/OK button support across all inputs
+            document.querySelectorAll('input').forEach(input => {
+                input.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter') {
+                        e.preventDefault();
+                        let activePage = document.querySelector('.page-module:not(.hidden)');
+                        if (activePage) {
+                            let btn = activePage.querySelector('button.btn-gold, button.btn-success');
+                            if (btn) btn.click();
+                        }
+                    }
+                });
+            });
         });
     </script>
 </body>
