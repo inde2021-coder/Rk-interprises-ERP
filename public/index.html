@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
-    <title>Universal Enterprise ERP & Tally | Multi-Branch</title>
+    <title>Universal Enterprise ERP, Tally & AI | Ultimate Complete Edition</title>
     
     <link rel="manifest" href='data:application/manifest+json,{"name":"Universal ERP Ultimate","short_name":"UNI_ERP","start_url":".","display":"standalone","background_color":"#02040a","theme_color":"#f59e0b","icons":[{"src":"https://img.icons8.com/color/512/diamond.png","sizes":"512x512","type":"image/png"}]}'>
     <meta name="mobile-web-app-capable" content="yes">
@@ -12,25 +12,20 @@
     <!-- Fonts & Icons -->
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+    
+    <!-- External APIs & Libraries -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jsbarcode/3.11.5/JsBarcode.all.min.js"></script>
-    
-    <!-- Firebase -->
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
-    
-    <!-- PDF & OCR -->
     <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
     <style>
         :root {
             --gold: #f59e0b; --gold-bright: #fbbf24; --cyan: #06b6d4; --danger: #ef4444; --success: #10b981;
-            --glass-bg: rgba(15, 23, 42, 0.35); --glass-border: rgba(255, 255, 255, 0.15);
+            --glass-bg: rgba(15, 23, 42, 0.45); --glass-border: rgba(255, 255, 255, 0.15);
             --glass-blur: blur(24px) saturate(180%); --glass-shadow: 0 16px 40px rgba(0,0,0,0.6);
         }
         *, *::before, *::after { box-sizing: border-box !important; margin: 0; padding: 0; outline: none; -webkit-tap-highlight-color: transparent; }
-        
         html, body { width: 100%; height: 100%; font-family: 'Plus Jakarta Sans', sans-serif; background: #020617; color: #f8fafc; overflow: hidden; font-size: 13.5px; position: relative; z-index: 1; }
         body::before { content: ''; position: fixed; top: -10%; left: -10%; width: 50vw; height: 50vw; background: radial-gradient(circle, rgba(245, 158, 11, 0.18) 0%, transparent 60%); border-radius: 50%; z-index: -1; filter: blur(60px); pointer-events: none; }
         body::after { content: ''; position: fixed; bottom: -10%; right: -10%; width: 60vw; height: 60vw; background: radial-gradient(circle, rgba(6, 182, 212, 0.15) 0%, transparent 60%); border-radius: 50%; z-index: -1; filter: blur(70px); pointer-events: none; }
@@ -55,35 +50,34 @@
         .form-group label { font-size: 11.5px; font-weight: 800; color: var(--gold-bright); margin-bottom: 6px; text-transform: uppercase; } 
         .form-group input, .form-group select, .form-group textarea { width: 100%; min-height: 42px; padding: 8px 12px; font-size: 13.5px; color: #fff; background: rgba(0,0,0,0.4); backdrop-filter: blur(10px); border-radius: 12px; border: 1px solid rgba(255,255,255,0.08); border-bottom: 2px solid rgba(251,191,36,0.3); font-weight: 700; transition: 0.3s; } 
         .form-group input:focus, .form-group select:focus, .form-group textarea:focus { background: rgba(0,0,0,0.6); border-bottom-color: var(--gold-bright); } 
-        .form-group input:disabled, .form-group select:disabled { opacity: 0.6; cursor: not-allowed; }
 
         .card { background: var(--glass-bg); border-radius: 18px; margin-bottom: 16px; padding: 20px; border: 1px solid var(--glass-border); box-shadow: var(--glass-shadow); backdrop-filter: var(--glass-blur); } 
         .card-header { font-size: 14px; color: #fbbf24; font-family: 'Cinzel', serif; font-weight: 900; margin-bottom: 16px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 12px; text-transform: uppercase; } 
 
         .table-wrapper { width: 100%; max-height: 250px; overflow: auto; border-radius: 12px; background: rgba(0,0,0,0.25); border: 1px solid var(--glass-border); margin-bottom: 10px; backdrop-filter: blur(10px); } 
         .data-table { width: 100%; border-collapse: collapse; min-width: max-content; } 
-        .data-table th { background: rgba(15,23,42,0.6); padding: 14px 16px; font-size: 12px; font-weight: 800; text-transform: uppercase; color: var(--gold-bright); text-align: left; position: sticky; top: 0; z-index: 20; border-bottom: 1px solid rgba(255,255,255,0.15); } 
+        .data-table th { background: rgba(15,23,42,0.7); padding: 14px 16px; font-size: 12px; font-weight: 800; text-transform: uppercase; color: var(--gold-bright); text-align: left; position: sticky; top: 0; z-index: 20; border-bottom: 1px solid rgba(255,255,255,0.15); } 
         .data-table td { padding: 12px 16px; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 13px; font-weight: 600; vertical-align: middle; } 
 
         .app-container { display: flex; width: 100vw; height: 100vh; position: fixed; top: 0; left: 0; z-index: 1000; } 
-        .sidebar { position: fixed; top: 0; left: -280px; width: 295px; height: 100%; background: rgba(3,7,18,0.5); border-right: 1px solid var(--glass-border); display: flex; flex-direction: column; z-index: 5000; transition: left 0.3s; backdrop-filter: blur(30px); } 
+        .sidebar { position: fixed; top: 0; left: -280px; width: 295px; height: 100%; background: rgba(3,7,18,0.75); border-right: 1px solid var(--glass-border); display: flex; flex-direction: column; z-index: 5000; transition: left 0.3s; backdrop-filter: blur(30px); } 
         .sidebar.active { left: 0; }
-        .sidebar-brand { height: 70px; display: flex; flex-direction: column; align-items: center; justify-content: center; background: rgba(0,0,0,0.2); border-bottom: 1px solid rgba(255,255,255,0.1); } 
-        .menu-list { flex: 1; overflow-y: auto; padding: 12px 10px; } 
-        .menu-item { display: flex; align-items: center; height: 46px; padding: 0 16px; color: #e2e8f0; font-size: 12px; font-weight: 800; cursor: pointer; margin: 6px 4px; border-radius: 24px; gap: 14px; transition: 0.3s; background: rgba(255,255,255,0.03); text-transform: uppercase; } 
-        .menu-item.active { background: rgba(245,158,11,0.2) !important; color: #fff !important; border: 1px solid rgba(245,158,11,0.5); }
+        .sidebar-brand { height: 70px; display: flex; flex-direction: column; align-items: center; justify-content: center; background: rgba(0,0,0,0.3); border-bottom: 1px solid rgba(255,255,255,0.1); } 
+        .menu-list { flex: 1; overflow-y: auto; padding: 6px 8px; } 
+        .menu-item { display: flex; align-items: center; height: 42px; padding: 0 14px; color: #e2e8f0; font-size: 11.5px; font-weight: 800; cursor: pointer; margin: 3px 0; border-radius: 20px; gap: 12px; transition: 0.3s; background: rgba(255,255,255,0.03); text-transform: uppercase; } 
+        .menu-item.active { background: rgba(245,158,11,0.25) !important; color: #fff !important; border: 1px solid rgba(245,158,11,0.5); }
         
         .workspace { flex: 1; display: flex; flex-direction: column; overflow: hidden; } 
         @media screen and (min-width: 769px) { .sidebar { left: 0 !important; } .workspace { margin-left: 295px; width: calc(100% - 295px); } .sidebar-overlay { display: none !important; } }
 
-        .topbar { height: 64px; background: rgba(3,7,18,0.4); border-bottom: 1px solid var(--glass-border); display: flex; align-items: center; justify-content: space-between; padding: 0 18px; backdrop-filter: blur(25px); } 
+        .topbar { height: 64px; background: rgba(3,7,18,0.6); border-bottom: 1px solid var(--glass-border); display: flex; align-items: center; justify-content: space-between; padding: 0 18px; backdrop-filter: blur(25px); } 
         .content-area { flex: 1; overflow-y: auto; padding: 20px; }
-        .modal-overlay { position: fixed !important; inset: 0 !important; background: rgba(0,0,0,0.6) !important; z-index: 999999 !important; display: flex; justify-content: center; align-items: center; padding: 16px; backdrop-filter: blur(15px); } 
-        .pin-box { width: 100%; max-width: 420px; background: rgba(15,23,42,0.6); padding: 36px 30px; border-radius: 24px; border: 1px solid var(--glass-border); text-align: center; backdrop-filter: blur(30px); }
-        .app-footer-brand { position: absolute; bottom: 0; left: 0; width: 100%; height: 40px; display: flex; align-items: center; justify-content: center; background: rgba(3,7,18,0.5); font-size: 10.5px; border-top: 1px solid rgba(255,255,255,0.1); backdrop-filter: blur(20px); color: #cbd5e1; font-weight: 700; }
+        .modal-overlay { position: fixed !important; inset: 0 !important; background: rgba(0,0,0,0.7) !important; z-index: 999999 !important; display: flex; justify-content: center; align-items: center; padding: 16px; backdrop-filter: blur(15px); } 
+        .pin-box { width: 100%; max-width: 420px; background: rgba(15,23,42,0.75); padding: 36px 30px; border-radius: 24px; border: 1px solid var(--glass-border); text-align: center; backdrop-filter: blur(30px); }
+        .app-footer-brand { height: 35px; display: flex; align-items: center; justify-content: center; background: rgba(3,7,18,0.9); font-size: 10.5px; border-top: 1px solid rgba(255,255,255,0.08); color: #94a3b8; font-weight: 700; letter-spacing: 1px; }
 
         #kiosk-app { position: fixed; inset: 0; z-index: 3000; display: flex; flex-direction: column; } 
-        .kiosk-header { display: flex; justify-content: space-between; align-items: center; padding: 14px 22px; border-bottom: 1px solid var(--glass-border); background: rgba(3,7,18,0.4); min-height: 64px; backdrop-filter: blur(25px); } 
+        .kiosk-header { display: flex; justify-content: space-between; align-items: center; padding: 14px 22px; border-bottom: 1px solid var(--glass-border); background: rgba(3,7,18,0.6); min-height: 64px; backdrop-filter: blur(25px); } 
 
         @media print {
             body { background: #fff !important; color: #000 !important; font-family: 'Plus Jakarta Sans', Arial, sans-serif !important; }
@@ -96,13 +90,13 @@
 </head>
 <body>
 
-    <!-- MODALS (Invoice/Slip Print View) -->
+    <!-- INVOICE/PDF PREVIEW MODAL -->
     <div id="digital-invoice-modal" class="modal-overlay hidden" onclick="if(event.target === this) this.classList.add('hidden')">
         <div class="pin-box" style="background: #ffffff; color: #000; width: 100%; max-width: 700px; max-height: 90vh; overflow-y: auto; padding: 0; border-radius: 8px;">
             <div style="display: flex; justify-content: space-between; align-items: center; padding: 15px; background: #f8fafc; border-bottom: 2px solid #000;" class="no-print">
-                <h3 style="font-size: 15px; font-weight: 900; color: #000; margin:0;" id="invoice_modal_title">GST Tax Invoice Preview</h3>
+                <h3 style="font-size: 15px; font-weight: 900; color: #000; margin:0;">Document & PDF Preview</h3>
                 <div style="display: flex; gap: 8px;">
-                    <button type="button" class="btn btn-success" style="height: 32px; font-size: 10px;" onclick="window.shareBillPDF()"><i class="fa-brands fa-whatsapp"></i> PDF</button>
+                    <button type="button" class="btn btn-success" style="height: 32px; font-size: 10px;" onclick="window.shareBillPDF()"><i class="fa-brands fa-whatsapp"></i> WhatsApp PDF</button>
                     <button type="button" class="btn btn-gold" style="height: 32px; font-size: 10px; color:#000;" onclick="window.print()"><i class="fa-solid fa-print"></i> Print</button>
                     <button type="button" class="btn btn-danger" style="height: 32px; font-size: 10px;" onclick="document.getElementById('digital-invoice-modal').classList.add('hidden')">Close</button>
                 </div>
@@ -111,13 +105,13 @@
         </div>
     </div>
 
-    <!-- STAFF ID CARD PRINT MODAL -->
+    <!-- STAFF ID CARD MODAL -->
     <div id="staff-id-modal" class="modal-overlay hidden" onclick="if(event.target === this) this.classList.add('hidden')">
-        <div class="pin-box" style="background: #ffffff; color: #000000; width: 100%; max-width: 400px; padding: 0; border-radius: 8px; box-shadow: 0 20px 60px rgba(0,0,0,0.8);">
+        <div class="pin-box" style="background: #ffffff; color: #000000; width: 100%; max-width: 380px; padding: 0; border-radius: 8px; box-shadow: 0 20px 60px rgba(0,0,0,0.8);">
             <div style="display: flex; justify-content: space-between; align-items: center; padding: 15px; background: #f8fafc; border-bottom: 2px solid #000;" class="no-print">
-                <h3 style="font-size: 15px; font-weight: 900; color: #000; margin:0;"><i class="fa-solid fa-id-badge"></i> ID Card Preview</h3>
+                <h3 style="font-size: 15px; font-weight: 900; color: #000; margin:0;"><i class="fa-solid fa-id-badge"></i> Staff ID Card</h3>
                 <div style="display: flex; gap: 8px;">
-                    <button type="button" class="btn btn-success" style="height: 32px; font-size: 10px;" onclick="window.print()">Print Card</button>
+                    <button type="button" class="btn btn-success" style="height: 32px; font-size: 10px;" onclick="window.print()">Print</button>
                     <button type="button" class="btn btn-danger" style="height: 32px; font-size: 10px;" onclick="document.getElementById('staff-id-modal').classList.add('hidden')">Close</button>
                 </div>
             </div>
@@ -144,7 +138,7 @@
                 <h1 class="hd-logo sys_shop_title" id="kiosk_shop_name" style="font-size: 16px; margin:0; cursor:pointer;">Universal Business Portal</h1>
             </div>
             <div style="display: flex; align-items: center; gap: 6px;">
-                <span style="font-size: 10px; color: var(--gold-bright); font-weight: 800; padding: 4px 10px; background: rgba(0,0,0,0.4); border-radius: 12px;">GLASS UI</span>
+                <span style="font-size: 10px; color: var(--gold-bright); font-weight: 800; padding: 4px 10px; background: rgba(0,0,0,0.4); border-radius: 12px;">KIOSK MODE</span>
             </div>
         </div>
         <div style="flex: 1; max-width: 840px; margin: 0 auto; padding: 18px; overflow-y: auto; width:100%;">
@@ -167,8 +161,8 @@
                     </div>
                     <div class="form-group"><label>Advance/Paid ₹</label><input type="number" id="k_adv" placeholder="0" oninput="window.updateKioskQRCode(this.value)"></div>
                     <div class="form-group full-w" style="text-align: center;">
-                        <label style="justify-content: center;"><i class="fa-solid fa-qrcode"></i> Scan & Pay</label>
-                        <div style="margin-top: 10px;"><div id="kiosk_upi_qrcode" style="width: 150px; height: 150px; display: inline-flex; justify-content: center; align-items: center; background: #fff; border-radius: 10px; padding: 5px; border: 2px solid var(--gold);"></div></div>
+                        <label style="justify-content: center;"><i class="fa-solid fa-qrcode"></i> Scan & Pay (Dynamic UPI QR)</label>
+                        <div style="margin-top: 10px;"><div id="kiosk_upi_qrcode" style="width: 140px; height: 140px; display: inline-flex; justify-content: center; align-items: center; background: #fff; border-radius: 10px; padding: 5px; border: 2px solid var(--gold);"></div></div>
                     </div>
                 </div>
                 <div id="kiosk_success_card" class="card hidden" style="background: rgba(16,185,129,0.1); border-color: rgba(16,185,129,0.4); text-align: center; margin-top: 10px;">
@@ -180,11 +174,11 @@
         </div>
     </div>
 
-    <!-- ADMIN WORKSPACE -->
+    <!-- ADMIN & STAFF WORKSPACE -->
     <div id="admin-app" class="app-container hidden">
         <aside class="sidebar">
             <div class="sidebar-brand">
-                <span class="brand-font sys_shop_title" style="font-weight: 900; font-size: 13px; color: var(--gold-bright);">ERP & TALLY</span>
+                <span class="brand-font sys_shop_title" style="font-weight: 900; font-size: 13px; color: var(--gold-bright);">ERP, TALLY & AI</span>
                 <span style="font-size: 9px; color: #94a3b8; letter-spacing: 0.5px;">MULTI-BRANCH SYSTEM</span>
             </div>
             <div class="menu-list">
@@ -196,25 +190,31 @@
                 <div class="menu-item sys_show_rental" onclick="window.navigate('page-missing', this)"><i class="fa-solid fa-triangle-exclamation"></i><span>Missing Items</span></div>
                 <div class="menu-item" onclick="window.navigate('page-booking-list', this)"><i class="fa-solid fa-rectangle-list"></i><span class="sys_lbl_records">All Records</span></div>
                 
-                <!-- TALLY ACCOUNTING MODULE MENUS -->
-                <div style="margin: 6px 14px; border-bottom: 1px solid rgba(255,255,255,0.1); font-size:10px; color:var(--gold-bright); letter-spacing:1px; font-weight:bold;">TALLY ACCOUNTS</div>
+                <!-- TALLY ACCOUNTING MODULE -->
+                <div style="margin: 4px 10px; border-bottom: 1px solid rgba(255,255,255,0.1); font-size:9.5px; color:var(--gold-bright); letter-spacing:1px; font-weight:bold;">TALLY ACCOUNTS</div>
                 <div class="menu-item" onclick="window.navigate('page-tally-ledgers', this)"><i class="fa-solid fa-book"></i><span>Ledger Accounts</span></div>
                 <div class="menu-item" onclick="window.navigate('page-tally-vouchers', this)"><i class="fa-solid fa-file-invoice-dollar"></i><span>Voucher Entry</span></div>
                 <div class="menu-item" onclick="window.navigate('page-tally-daybook', this)"><i class="fa-solid fa-calendar-day"></i><span>Day Book</span></div>
                 <div class="menu-item" onclick="window.navigate('page-tally-stmt', this)"><i class="fa-solid fa-file-lines"></i><span>Ledger Statement</span></div>
 
-                <div style="margin: 6px 14px; border-bottom: 1px solid rgba(255,255,255,0.1); font-size:10px; color:var(--gold-bright); letter-spacing:1px; font-weight:bold;">ENTERPRISE</div>
+                <!-- SCANNER & AI ASSISTANT MODULES -->
+                <div style="margin: 4px 10px; border-bottom: 1px solid rgba(255,255,255,0.1); font-size:9.5px; color:var(--gold-bright); letter-spacing:1px; font-weight:bold;">AI & CAMERA TOOLS</div>
+                <div class="menu-item" onclick="window.navigate('page-ai-assistant', this)"><i class="fa-solid fa-robot"></i><span>AI Business Assistant</span></div>
+                <div class="menu-item" onclick="window.navigate('page-ocr', this)"><i class="fa-solid fa-camera"></i><span>Live Camera Scanner (OCR)</span></div>
+
+                <!-- ENTERPRISE & ADMIN MODULES -->
+                <div style="margin: 4px 10px; border-bottom: 1px solid rgba(255,255,255,0.1); font-size:9.5px; color:var(--gold-bright); letter-spacing:1px; font-weight:bold;">ENTERPRISE</div>
                 <div class="menu-item" onclick="window.navigate('page-add', this)"><i class="fa-solid fa-boxes-stacked"></i><span class="sys_lbl_inventory">Stock / Inventory</span></div>
                 <div class="menu-item admin-restricted-menu" onclick="window.navigate('page-transfer', this)"><i class="fa-solid fa-right-left"></i><span>Stock Transfer</span></div>
                 <div class="menu-item" onclick="window.navigate('page-bill', this)"><i class="fa-solid fa-receipt"></i><span>GST Billing & POS</span></div>
                 <div class="menu-item admin-restricted-menu" onclick="window.navigate('page-hq-superadmin', this)"><i class="fa-solid fa-globe"></i><span>Master Dashboard</span></div>
                 
-                <div style="margin: 6px 14px; border-bottom: 1px solid rgba(255,255,255,0.1);"></div>
-                <div class="menu-item admin-restricted-menu" onclick="window.navigate('page-hq-payroll', this)"><i class="fa-solid fa-id-card-clip"></i><span>Staff & ID</span></div>
+                <div style="margin: 4px 10px; border-bottom: 1px solid rgba(255,255,255,0.1);"></div>
+                <div class="menu-item admin-restricted-menu" onclick="window.navigate('page-hq-payroll', this)"><i class="fa-solid fa-id-card-clip"></i><span>Staff & ID Cards</span></div>
                 <div class="menu-item admin-restricted-menu" onclick="window.navigate('page-hq-settings', this)"><i class="fa-solid fa-gears"></i><span>ERP Settings</span></div>
             </div>
             <div class="app-footer-brand">DEV: SHARD PATEL</div>
-            <div style="padding: 10px 12px; text-align: center; background:rgba(3,7,18,0.5);"><button type="button" class="btn btn-danger full-w" style="height:36px;" onclick="window.logoutToKiosk()">Lock</button></div>
+            <div style="padding: 8px 12px; text-align: center; background:rgba(3,7,18,0.5);"><button type="button" class="btn btn-danger full-w" style="height:34px;" onclick="window.logoutToKiosk()">Lock</button></div>
         </aside>
 
         <main class="workspace">
@@ -226,7 +226,7 @@
             </header>
 
             <div class="content-area">
-                <!-- DASHBOARD -->
+                <!-- 1. DASHBOARD -->
                 <div id="page-dash" class="page-module">
                     <h2 class="brand-font" style="font-size: 16px; margin-bottom: 14px;">Business Overview (<span class="sys_shop_title">Shop</span>)</h2>
                     <div class="form-grid" style="grid-template-columns: repeat(3, 1fr);">
@@ -236,7 +236,99 @@
                     </div>
                 </div>
 
-                <!-- TALLY LEDGERS PAGE -->
+                <!-- 2. NEW BOOKING / DIRECT SALE -->
+                <div id="page-new" class="page-module hidden">
+                    <div class="card">
+                        <div class="card-header"><span class="sys_lbl_new_booking">New Entry Form</span></div>
+                        <div class="form-grid">
+                            <div class="form-group"><label class="sys_lbl_customer">Name</label><input type="text" id="admin_bk_name"></div>
+                            <div class="form-group"><label>Mobile</label><input type="tel" id="admin_bk_mob" maxlength="10"></div>
+                            <div class="form-group"><label class="sys_lbl_date_out">Date</label><input type="date" id="admin_bk_out"></div>
+                            <div class="form-group sys_hide_retail"><label>Return Date</label><input type="date" id="admin_bk_ret"></div>
+                            
+                            <div class="form-group full-w" style="background: rgba(0,0,0,0.25); padding: 16px; border-radius: 14px;">
+                                <label style="color:var(--gold-bright);">Items / Product Selection</label>
+                                <div style="display:flex; gap:6px; margin-bottom:8px;">
+                                    <select id="admin_item_select" style="flex:2; height:38px;" class="sys_item_options"></select>
+                                    <input type="number" id="admin_item_qty" value="1" min="1" style="flex:1; height:38px; text-align:center;">
+                                    <button type="button" class="btn btn-outline" style="height:38px;" onclick="window.addAdminSelectedItem()">Add</button>
+                                </div>
+                                <div class="table-wrapper"><table class="data-table"><thead><tr><th>Item</th><th style="text-align:center;">Qty</th><th>Act</th></tr></thead><tbody id="admin_selected_items_tbody"></tbody></table></div>
+                            </div>
+                            <div class="form-group"><label>Paid / Advance ₹</label><input type="number" id="admin_bk_adv" placeholder="0"></div>
+                        </div>
+                        <button type="button" class="btn btn-gold full-w" style="margin-top: 14px;" onclick="window.createNewAdminBooking()">Save Record</button>
+                    </div>
+                </div>
+
+                <!-- 3. QUOTATION GENERATOR -->
+                <div id="page-quote" class="page-module hidden">
+                    <div class="card">
+                        <div class="card-header"><span>Quotation Generator</span></div>
+                        <div class="form-grid">
+                            <div class="form-group"><label>Name</label><input type="text" id="quote_cname"></div>
+                            <div class="form-group"><label>Mobile</label><input type="tel" id="quote_cmob" maxlength="10"></div>
+                            <div class="form-group"><label>Date</label><input type="date" id="quote_out"></div>
+                            <div class="form-group full-w" style="background: rgba(0,0,0,0.25); padding: 16px; border-radius: 14px;">
+                                <div style="display:flex; gap:6px; margin-bottom:8px;">
+                                    <select id="quote_item_select" style="flex:2; height:38px;" class="sys_item_options"></select>
+                                    <input type="number" id="quote_item_qty" value="1" min="1" style="flex:1; height:38px; text-align:center;">
+                                    <input type="number" id="quote_item_rate" placeholder="Rate ₹" style="flex:1; height:38px; text-align:center;">
+                                    <button type="button" class="btn btn-outline" style="height:38px; min-width:60px;" onclick="window.addQuoteSelectedItem()"><i class="fa-solid fa-plus"></i></button>
+                                </div>
+                                <div class="table-wrapper"><table class="data-table"><thead><tr><th>Item</th><th style="text-align:center;">Qty</th><th>Rate</th><th>Total</th><th>Action</th></tr></thead><tbody id="quote_selected_items_tbody"></tbody></table></div>
+                            </div>
+                        </div>
+                        <div style="display:flex; justify-content: space-between; align-items:center; margin-top: 10px;">
+                            <span style="font-size:14px; font-weight:bold; color:#34d399;">Gross: <span id="quote_gross_total">₹0</span></span>
+                            <button type="button" class="btn btn-gold" style="height: 42px; min-width: 150px;" onclick="window.generateAndPrintQuote()"><i class="fa-solid fa-file-pdf"></i> Save & Print</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 4. DISPATCH MANAGEMENT -->
+                <div id="page-disp" class="page-module hidden">
+                    <div class="card" id="disp_search_box">
+                        <div class="card-header"><span>Dispatch Management</span></div>
+                        <div style="display:flex; gap:8px;"><input type="text" id="disp_search_inp" placeholder="Booking ID..." onkeypress="if(event.key === 'Enter') window.loadDispatchOrder()"><button type="button" class="btn btn-outline" style="min-width: 60px;" onclick="window.loadDispatchOrder()"><i class="fa-solid fa-magnifying-glass"></i></button></div>
+                    </div>
+                    <div class="card hidden" id="disp_action_box">
+                        <div class="card-header"><span>Dispatch: #<span id="disp_title_ref"></span></span></div>
+                        <div class="table-wrapper"><table class="data-table"><thead><tr><th>Item</th><th>Qty</th><th>Action</th></tr></thead><tbody id="disp_tbody"></tbody></table></div>
+                        <button type="button" class="btn btn-success full-w" style="margin-top: 14px;" onclick="window.finalizeDispatch()">Finalize Dispatch</button>
+                    </div>
+                </div>
+
+                <!-- 5. RETURN INSPECTION -->
+                <div id="page-ret" class="page-module hidden">
+                    <div class="card" id="ret_search_box">
+                        <div class="card-header"><span>Return Inspection</span></div>
+                        <div style="display:flex; gap:8px;"><input type="text" id="ret_search_inp" placeholder="Booking ID..." onkeypress="if(event.key === 'Enter') window.loadReturnOrder()"><button type="button" class="btn btn-outline" style="min-width: 60px;" onclick="window.loadReturnOrder()"><i class="fa-solid fa-magnifying-glass"></i></button></div>
+                    </div>
+                    <div class="card hidden" id="ret_action_box">
+                        <div class="card-header"><span>Return Form</span></div>
+                        <div class="table-wrapper"><table class="data-table"><thead><tr><th>Item</th><th>Sent</th><th>Return</th></tr></thead><tbody id="ret_tbody"></tbody></table></div>
+                        <button type="button" class="btn btn-success full-w" style="margin-top: 14px;" onclick="window.finalizeReturnInspection()">Complete Return</button>
+                    </div>
+                </div>
+
+                <!-- 6. MISSING ITEMS REPORT -->
+                <div id="page-missing" class="page-module hidden">
+                    <div class="card full-w">
+                        <div class="card-header"><span>Missing / Damaged Items Report</span></div>
+                        <div class="table-wrapper"><table class="data-table"><thead><tr><th>ID</th><th>Customer</th><th>Item</th><th>Missing Qty</th></tr></thead><tbody id="tbl-missing-master"><tr><td colspan="4" style="text-align:center;">No missing items reported.</td></tr></tbody></table></div>
+                    </div>
+                </div>
+
+                <!-- 7. ALL RECORDS / BOOKING CHART -->
+                <div id="page-booking-list" class="page-module hidden">
+                    <div class="card">
+                        <div class="card-header"><span class="sys_lbl_records">All Records</span></div>
+                        <div class="table-wrapper"><table class="data-table"><thead><tr><th>ID</th><th>Name</th><th>Status</th><th>Paid ₹</th><th>Action</th></tr></thead><tbody id="tbl-booking-list"></tbody></table></div>
+                    </div>
+                </div>
+
+                <!-- 8. TALLY LEDGERS -->
                 <div id="page-tally-ledgers" class="page-module hidden">
                     <div class="card">
                         <div class="card-header"><span>Create Tally Ledger Account</span></div>
@@ -267,16 +359,11 @@
                     </div>
                     <div class="card full-w">
                         <div class="card-header"><span>Branch Ledgers List</span></div>
-                        <div class="table-wrapper">
-                            <table class="data-table">
-                                <thead><tr><th>Name</th><th>Group</th><th>Op. Balance</th><th>Action</th></tr></thead>
-                                <tbody id="tbl_tally_ledgers_body"></tbody>
-                            </table>
-                        </div>
+                        <div class="table-wrapper"><table class="data-table"><thead><tr><th>Name</th><th>Group</th><th>Op. Balance</th><th>Action</th></tr></thead><tbody id="tbl_tally_ledgers_body"></tbody></table></div>
                     </div>
                 </div>
 
-                <!-- TALLY VOUCHERS PAGE -->
+                <!-- 9. TALLY VOUCHERS -->
                 <div id="page-tally-vouchers" class="page-module hidden">
                     <div class="card">
                         <div class="card-header"><span>New Tally Voucher Entry</span></div>
@@ -302,23 +389,18 @@
                     </div>
                 </div>
 
-                <!-- TALLY DAY BOOK -->
+                <!-- 10. TALLY DAY BOOK -->
                 <div id="page-tally-daybook" class="page-module hidden">
                     <div class="card full-w">
                         <div class="card-header">
                             <span>Day Book Records</span>
                             <button type="button" class="btn btn-outline" style="height:30px; font-size:10px;" onclick="window.print()"><i class="fa-solid fa-print"></i> Print</button>
                         </div>
-                        <div class="table-wrapper">
-                            <table class="data-table">
-                                <thead><tr><th>No.</th><th>Date</th><th>Type</th><th>Particulars (Dr / Cr)</th><th>Amount</th><th>Action</th></tr></thead>
-                                <tbody id="tbl_tally_daybook_body"></tbody>
-                            </table>
-                        </div>
+                        <div class="table-wrapper"><table class="data-table"><thead><tr><th>No.</th><th>Date</th><th>Type</th><th>Particulars (Dr / Cr)</th><th>Amount</th><th>Action</th></tr></thead><tbody id="tbl_tally_daybook_body"></tbody></table></div>
                     </div>
                 </div>
 
-                <!-- TALLY LEDGER STATEMENT -->
+                <!-- 11. TALLY LEDGER STATEMENT -->
                 <div id="page-tally-stmt" class="page-module hidden">
                     <div class="card">
                         <div class="card-header"><span>Ledger Account Statement</span></div>
@@ -331,32 +413,58 @@
                             <span id="tally_stmt_title">Statement Details</span>
                             <button type="button" class="btn btn-outline" style="height:30px; font-size:10px;" onclick="window.print()"><i class="fa-solid fa-print"></i> Print Statement</button>
                         </div>
-                        <div class="table-wrapper">
-                            <table class="data-table">
-                                <thead><tr><th>Date</th><th>Voucher</th><th>Narration</th><th>Debit (₹)</th><th>Credit (₹)</th><th>Balance (₹)</th></tr></thead>
-                                <tbody id="tbl_tally_statement_body"></tbody>
-                            </table>
+                        <div class="table-wrapper"><table class="data-table"><thead><tr><th>Date</th><th>Voucher</th><th>Narration</th><th>Debit (₹)</th><th>Credit (₹)</th><th>Balance (₹)</th></tr></thead><tbody id="tbl_tally_statement_body"></tbody></table></div>
+                    </div>
+                </div>
+
+                <!-- 12. AI BUSINESS ASSISTANT -->
+                <div id="page-ai-assistant" class="page-module hidden">
+                    <div class="card full-w" style="display:flex; flex-direction:column; height: calc(100vh - 150px);">
+                        <div class="card-header"><span><i class="fa-solid fa-robot" style="color:var(--cyan);"></i> AI Business Assistant & Advisor</span></div>
+                        <div id="ai_chat_container" style="flex:1; overflow-y:auto; padding:12px; background:rgba(0,0,0,0.3); border-radius:12px; border:1px solid rgba(255,255,255,0.08); margin-bottom:10px; display:flex; flex-direction:column; gap:10px;">
+                            <div style="background:rgba(6,182,212,0.15); border:1px solid rgba(6,182,212,0.4); padding:10px 14px; border-radius:12px; max-width:80%; align-self:flex-start; font-size:13px;">
+                                Namaskar! Main aapka AI Business Assistant hoon. Aap mujhse stock status, revenue, ya accounting tips ke baare mein puch sakte hain.
+                            </div>
+                        </div>
+                        <div style="display:flex; gap:8px;">
+                            <input type="text" id="ai_chat_input" placeholder="Type a message (e.g., 'Total revenue kitna hai?')..." onkeypress="if(event.key === 'Enter') window.sendAIChatQuery()" style="flex:1; height:42px;">
+                            <button type="button" class="btn btn-outline" style="height:42px; min-width:80px;" onclick="window.sendAIChatQuery()"><i class="fa-solid fa-paper-plane"></i> Send</button>
                         </div>
                     </div>
                 </div>
 
-                <!-- SUPER ADMIN MASTER DASHBOARD -->
-                <div id="page-hq-superadmin" class="page-module hidden">
+                <!-- 13. LIVE CAMERA SCANNER (OCR) -->
+                <div id="page-ocr" class="page-module hidden">
                     <div class="card full-w">
-                        <div class="card-header"><span>Master Super Admin Dashboard (All Branches)</span></div>
-                        <div class="table-wrapper">
-                            <table class="data-table">
-                                <thead><tr><th>Branch Name</th><th>Total Entries</th><th>Total Revenue</th></tr></thead>
-                                <tbody id="tbl-superadmin-dash"></tbody>
-                            </table>
+                        <div class="card-header"><span><i class="fa-solid fa-camera"></i> Live Camera Scanner & Document AI (Tesseract.js)</span></div>
+                        <div class="form-group">
+                            <label>Capture or Upload Document / Bill / Visiting Card</label>
+                            <input type="file" accept="image/*" capture="environment" onchange="window.processOCRScan(this)" style="padding:10px;">
                         </div>
-                        <div style="text-align:right; font-size:18px; font-weight:bold; color:var(--success); margin-top:10px;">
-                            Total Net Worth: <span id="superadmin_net_worth">₹0</span>
+                        <div id="ocr_status_box" style="margin: 10px 0; color: var(--gold-bright); font-weight: bold;"></div>
+                        <div class="form-group" style="margin-top:10px;">
+                            <label>Extracted Scanner Text Output</label>
+                            <textarea id="ocr_result_output" rows="6" placeholder="Scanned text will appear here automatically..." style="font-family:monospace;"></textarea>
                         </div>
                     </div>
                 </div>
 
-                <!-- STOCK TRANSFER -->
+                <!-- 14. STOCK / INVENTORY -->
+                <div id="page-add" class="page-module hidden">
+                    <div class="card">
+                        <div class="card-header"><span class="sys_lbl_inventory">Stock Update</span></div>
+                        <div class="form-grid">
+                            <input type="hidden" id="edit_stock_index" value="-1">
+                            <div class="form-group"><label>Item Name</label><input type="text" id="inv_name"></div>
+                            <div class="form-group"><label>Qty</label><input type="number" id="inv_qty"></div>
+                            <div class="form-group"><label>Rate/Price ₹</label><input type="number" id="inv_rent"></div>
+                        </div>
+                        <button type="button" class="btn btn-gold full-w" style="margin-top:14px;" onclick="window.saveMasterStockItem()">Save Item</button>
+                    </div>
+                    <div class="card full-w"><div class="table-wrapper"><table class="data-table"><thead><tr><th>Item</th><th>Qty</th><th>Rate ₹</th><th>Act</th></tr></thead><tbody id="tbl-stock-master"></tbody></table></div></div>
+                </div>
+
+                <!-- 15. STOCK TRANSFER -->
                 <div id="page-transfer" class="page-module hidden">
                     <div class="card full-w">
                         <div class="card-header"><span>Inter-Branch Stock Transfer</span></div>
@@ -370,44 +478,10 @@
                     </div>
                 </div>
 
-                <!-- NEW BOOKING / DIRECT SALE -->
-                <div id="page-new" class="page-module hidden">
-                    <div class="card">
-                        <div class="card-header"><span class="sys_lbl_new_booking">New Entry</span></div>
-                        <div class="form-grid">
-                            <div class="form-group"><label class="sys_lbl_customer">Name</label><input type="text" id="admin_bk_name"></div>
-                            <div class="form-group"><label>Mobile</label><input type="tel" id="admin_bk_mob" maxlength="10"></div>
-                            <div class="form-group"><label class="sys_lbl_date_out">Date</label><input type="date" id="admin_bk_out"></div>
-                            <div class="form-group sys_hide_retail"><label>Return Date</label><input type="date" id="admin_bk_ret"></div>
-                            
-                            <div class="form-group full-w" style="background: rgba(0,0,0,0.25); padding: 16px; border-radius: 14px;">
-                                <label style="color:var(--gold-bright);">Items / Product</label>
-                                <div style="display:flex; gap:6px; margin-bottom:8px;">
-                                    <select id="admin_item_select" style="flex:2; height:38px;" class="sys_item_options"></select>
-                                    <input type="number" id="admin_item_qty" value="1" min="1" style="flex:1; height:38px; text-align:center;">
-                                    <button type="button" class="btn btn-outline" style="height:38px;" onclick="window.addAdminSelectedItem()">Add</button>
-                                </div>
-                                <div class="table-wrapper"><table class="data-table"><thead><tr><th>Item</th><th style="text-align:center;">Qty</th><th>Act</th></tr></thead><tbody id="admin_selected_items_tbody"></tbody></table></div>
-                            </div>
-                            <div class="form-group"><label>Paid / Advance ₹</label><input type="number" id="admin_bk_adv" placeholder="0"></div>
-                        </div>
-                        <button type="button" class="btn btn-gold full-w" style="margin-top: 14px;" onclick="window.createNewAdminBooking()">Save Record</button>
-                    </div>
-                </div>
-
-                <!-- LIST / RECORDS -->
-                <div id="page-booking-list" class="page-module hidden"><div class="card"><div class="card-header"><span class="sys_lbl_records">Records</span></div><div class="table-wrapper"><table class="data-table"><thead><tr><th>ID</th><th>Name</th><th>Status</th><th>Paid ₹</th><th>Action</th></tr></thead><tbody id="tbl-booking-list"></tbody></table></div></div></div>
-
-                <!-- STOCK / INVENTORY -->
-                <div id="page-add" class="page-module hidden">
-                    <div class="card"><div class="card-header"><span class="sys_lbl_inventory">Stock Update</span></div><div class="form-grid"><input type="hidden" id="edit_stock_index" value="-1"><div class="form-group"><label>Item Name</label><input type="text" id="inv_name"></div><div class="form-group"><label>Qty</label><input type="number" id="inv_qty"></div><div class="form-group"><label>Rate/Price ₹</label><input type="number" id="inv_rent"></div></div><button type="button" class="btn btn-gold full-w" style="margin-top:14px;" onclick="window.saveMasterStockItem()">Save Item</button></div>
-                    <div class="card full-w"><div class="table-wrapper"><table class="data-table"><thead><tr><th>Item</th><th>Qty</th><th>Rate ₹</th><th>Act</th></tr></thead><tbody id="tbl-stock-master"></tbody></table></div></div>
-                </div>
-
-                <!-- BILLING & GST POS -->
+                <!-- 16. GST BILLING & POS -->
                 <div id="page-bill" class="page-module hidden">
                     <div class="card" id="bill_search_box">
-                        <div class="card-header"><span>Generate GST Tax Invoice / POS</span></div>
+                        <div class="card-header"><span>Generate GST Tax Invoice / POS API</span></div>
                         <div style="display:flex; gap:8px;"><input type="text" id="bill_search_inp" placeholder="Record ID..." onkeypress="if(event.key === 'Enter') window.loadBillOrder()"><button type="button" class="btn btn-gold" style="min-width: 100px;" onclick="window.loadBillOrder()">Search</button></div>
                     </div>
                     <div class="card hidden" id="bill_action_box">
@@ -420,42 +494,22 @@
                             <div class="form-group"><label>Due ₹</label><input type="text" id="bill_due_inp" readonly></div>
                         </div>
                         <div style="display:flex; gap:10px; margin-top: 14px;">
-                            <button type="button" class="btn btn-outline" style="flex:1;" onclick="window.previewActiveBill()"><i class="fa-solid fa-file-pdf"></i> GST Preview & PDF</button>
-                            <button type="button" class="btn btn-success" style="flex:1;" onclick="window.settleAndPrintActiveBill()"><i class="fa-solid fa-check"></i> Settle & Post</button>
+                            <button type="button" class="btn btn-outline" style="flex:1;" onclick="window.previewActiveBill()"><i class="fa-solid fa-file-pdf"></i> GST PDF API</button>
+                            <button type="button" class="btn btn-success" style="flex:1;" onclick="window.sendWhatsAppInvoiceAPI()"><i class="fa-brands fa-whatsapp"></i> WhatsApp API</button>
                         </div>
                     </div>
                 </div>
 
-                <!-- QUOTATION, DISP, RET, MISSING -->
-                <div id="page-quote" class="page-module hidden">
-                    <div class="card">
-                        <div class="card-header"><span>Quotation</span></div>
-                        <div class="form-grid">
-                            <div class="form-group"><label>Name</label><input type="text" id="quote_cname"></div>
-                            <div class="form-group"><label>Mobile</label><input type="tel" id="quote_cmob" maxlength="10"></div>
-                            <div class="form-group"><label>Date</label><input type="date" id="quote_out"></div>
-                            <div class="form-group full-w" style="background: rgba(0,0,0,0.25); padding: 16px; border-radius: 14px;">
-                                <div style="display:flex; gap:6px; margin-bottom:8px;">
-                                    <select id="quote_item_select" style="flex:2; height:38px;" class="sys_item_options"></select>
-                                    <input type="number" id="quote_item_qty" value="1" min="1" style="flex:1; height:38px; text-align:center;">
-                                    <input type="number" id="quote_item_rate" placeholder="Rate ₹" style="flex:1; height:38px; text-align:center;">
-                                    <button type="button" class="btn btn-outline" style="height:38px; min-width:60px;" onclick="window.addQuoteSelectedItem()"><i class="fa-solid fa-plus"></i></button>
-                                </div>
-                                <div class="table-wrapper"><table class="data-table"><thead><tr><th>Item</th><th style="text-align:center;">Qty</th><th>Rate</th><th>Total</th><th>Action</th></tr></thead><tbody id="quote_selected_items_tbody"></tbody></table></div>
-                            </div>
-                        </div>
-                        <div style="display:flex; justify-content: space-between; align-items:center; margin-top: 10px;">
-                            <span style="font-size:14px; font-weight:bold; color:#34d399;">Gross: <span id="quote_gross_total">₹0</span></span>
-                            <button type="button" class="btn btn-gold" style="height: 42px; min-width: 150px;" onclick="window.generateAndPrintQuote()"><i class="fa-solid fa-file-pdf"></i> Save & Print</button>
-                        </div>
+                <!-- 17. MASTER SUPER ADMIN DASHBOARD -->
+                <div id="page-hq-superadmin" class="page-module hidden">
+                    <div class="card full-w">
+                        <div class="card-header"><span>Master Super Admin Dashboard (All Branches)</span></div>
+                        <div class="table-wrapper"><table class="data-table"><thead><tr><th>Branch Name</th><th>Total Entries</th><th>Total Revenue</th></tr></thead><tbody id="tbl-superadmin-dash"></tbody></table></div>
+                        <div style="text-align:right; font-size:18px; font-weight:bold; color:var(--success); margin-top:10px;">Total Net Worth: <span id="superadmin_net_worth">₹0</span></div>
                     </div>
                 </div>
 
-                <div id="page-disp" class="page-module hidden"><div class="card" id="disp_search_box"><div class="card-header"><span>Dispatch</span></div><div style="display:flex; gap:8px;"><input type="text" id="disp_search_inp" placeholder="Booking ID..." onkeypress="if(event.key === 'Enter') window.loadDispatchOrder()"><button type="button" class="btn btn-outline" style="min-width: 60px;" onclick="window.loadDispatchOrder()"><i class="fa-solid fa-magnifying-glass"></i></button></div></div><div class="card hidden" id="disp_action_box"><div class="card-header"><span>Dispatch: #<span id="disp_title_ref"></span></span></div><div style="display:flex; gap:6px; margin-bottom:8px;"><select id="disp_manual_item" style="flex:2; height:36px;" class="sys_item_options"></select><input type="number" id="disp_manual_qty" value="1" min="1" style="flex:1; height:36px; text-align:center;"><button type="button" class="btn btn-success" style="height:36px; min-width:80px;" onclick="window.addManualDispatchItem()">Add</button></div><div class="table-wrapper"><table class="data-table"><thead><tr><th>Item</th><th>Qty</th><th>Action</th></tr></thead><tbody id="disp_tbody"></tbody></table></div><button type="button" class="btn btn-success full-w" style="margin-top: 14px;" onclick="window.finalizeDispatch()">Finalize</button></div></div>
-                <div id="page-ret" class="page-module hidden"><div class="card" id="ret_search_box"><div class="card-header"><span>Return</span></div><div style="display:flex; gap:8px;"><input type="text" id="ret_search_inp" placeholder="Booking ID..." onkeypress="if(event.key === 'Enter') window.loadReturnOrder()"><button type="button" class="btn btn-outline" style="min-width: 60px;" onclick="window.loadReturnOrder()"><i class="fa-solid fa-magnifying-glass"></i></button></div></div><div class="card hidden" id="ret_action_box"><div class="card-header"><span>Return Form</span></div><div style="display:flex; gap:6px; margin-bottom:8px;"><select id="ret_manual_item" style="flex:2; height:36px;" class="sys_item_options"></select><input type="number" id="ret_manual_qty" value="1" min="1" style="flex:1; height:36px; text-align:center;"><button type="button" class="btn btn-success" style="height:36px; min-width:80px;" onclick="window.addManualReturnItem()">Add</button></div><div class="table-wrapper"><table class="data-table"><thead><tr><th>Item</th><th>Sent</th><th>Return</th></tr></thead><tbody id="ret_tbody"></tbody></table></div><button type="button" class="btn btn-success full-w" style="margin-top: 14px;" onclick="window.finalizeReturnInspection()">Complete</button></div></div>
-                <div id="page-missing" class="page-module hidden"><div class="card full-w"><div class="card-header"><span>Missing Items</span></div><div class="table-wrapper"><table class="data-table"><thead><tr><th>ID</th><th>Customer</th><th>Item</th><th>Missing Qty</th></tr></thead><tbody id="tbl-missing-master"></tbody></table></div></div></div>
-
-                <!-- PAYROLL & ID CARD -->
+                <!-- 18. STAFF & ID CARDS -->
                 <div id="page-hq-payroll" class="page-module hidden">
                     <div class="card full-w">
                         <div class="card-header"><span>Staff Registration & ID Cards</span></div>
@@ -466,17 +520,14 @@
                             <div class="form-group full-w"><label>Address</label><input type="text" id="pay_addr"></div>
                             <div class="form-group"><label>Role</label><input type="text" id="pay_role"></div>
                             <div class="form-group"><label>PIN (4 Digit) *</label><input type="password" id="pay_pin" maxlength="4"></div>
-                            <div class="form-group full-w">
-                                <label>Assigned Branch *</label>
-                                <select id="pay_branch"></select>
-                            </div>
+                            <div class="form-group full-w"><label>Assigned Branch *</label><select id="pay_branch"></select></div>
                         </div>
                         <button type="button" class="btn btn-gold full-w" style="margin-top:14px;" onclick="window.saveMergedStaffPayroll()">Save Staff & Generate ID</button>
                         <div class="table-wrapper" style="margin-top: 20px;"><table class="data-table"><thead><tr><th>Name</th><th>Role</th><th>Branch</th><th>Action</th></tr></thead><tbody id="tbl-merged-payroll"></tbody></table></div>
                     </div>
                 </div>
 
-                <!-- SETTINGS & PROFILES -->
+                <!-- 19. ERP SETTINGS -->
                 <div id="page-hq-settings" class="page-module hidden">
                     <div class="card full-w">
                         <div class="card-header"><span>Enterprise Settings</span></div>
@@ -528,7 +579,7 @@
 
     <script>
         // ==========================================
-        // 1. DYNAMIC BRANCH MANAGEMENT & TALLY CORE
+        // 1. DYNAMIC BRANCH & APP ENGINE
         // ==========================================
         window.erpBranches = JSON.parse(localStorage.getItem('erp_all_branches') || '["Radhe_Krishna_Main", "Balaghat_Branch", "Warehouse_Goreghat"]');
         window.currentBizMode = localStorage.getItem('erp_biz_type') || 'rental';
@@ -581,9 +632,9 @@
             let sGstin = localStorage.getItem('erp_shop_gstin_' + window.currentBranch) || "23AAAAA0000A1Z5";
             
             document.querySelectorAll('.sys_shop_title').forEach(el => el.innerText = sName);
-            document.getElementById('set_shop_name').value = sName;
-            document.getElementById('set_shop_phone').value = sPhone;
-            document.getElementById('set_shop_addr').value = sAddr;
+            let sNameInp = document.getElementById('set_shop_name'); if(sNameInp) sNameInp.value = sName;
+            let sPhoneInp = document.getElementById('set_shop_phone'); if(sPhoneInp) sPhoneInp.value = sPhone;
+            let sAddrInp = document.getElementById('set_shop_addr'); if(sAddrInp) sAddrInp.value = sAddr;
             let gstinInp = document.getElementById('set_shop_gstin'); if(gstinInp) gstinInp.value = sGstin;
 
             document.querySelectorAll('.sys_lbl_new_booking').forEach(el => el.innerText = config.labels.newBooking);
@@ -606,7 +657,7 @@
         window.switchBusinessMode = (type) => { localStorage.setItem('erp_biz_type', type); window.showToast("Engine Updated!"); setTimeout(() => location.reload(), 800); };
 
         // ==========================================
-        // 2. TALLY ACCOUNTING ENGINE (Branch Aware)
+        // 2. TALLY CORE API ENGINE
         // ==========================================
         window.getTallyLedgersPath = () => `erp_tally_${window.currentBranch}_ledgers`;
         window.getTallyVouchersPath = () => `erp_tally_${window.currentBranch}_vouchers`;
@@ -626,9 +677,7 @@
             } catch(e) { return []; }
         };
 
-        window.loadTallyVouchers = () => {
-            try { return JSON.parse(localStorage.getItem(window.getTallyVouchersPath()) || '[]'); } catch(e) { return []; }
-        };
+        window.loadTallyVouchers = () => { try { return JSON.parse(localStorage.getItem(window.getTallyVouchersPath()) || '[]'); } catch(e) { return []; } };
 
         window.saveTallyLedger = () => {
             let name = document.getElementById('tally_ledger_name').value.trim();
@@ -663,22 +712,11 @@
             let lblDr = document.getElementById('lbl_tv_dr');
             let lblCr = document.getElementById('lbl_tv_cr');
             
-            if(type === 'Receipt') {
-                lblDr.innerText = "Account Debited (Cash/Bank) *";
-                lblCr.innerText = "Account Credited (Party/Income) *";
-            } else if(type === 'Payment') {
-                lblDr.innerText = "Account Debited (Party/Expense) *";
-                lblCr.innerText = "Account Credited (Cash/Bank) *";
-            } else if(type === 'Sales') {
-                lblDr.innerText = "Party Debited (Customer) *";
-                lblCr.innerText = "Sales Account *";
-            } else if(type === 'Purchase') {
-                lblDr.innerText = "Purchase Account *";
-                lblCr.innerText = "Party Credited (Supplier) *";
-            } else {
-                lblDr.innerText = "Debit Account (Dr) *";
-                lblCr.innerText = "Credit Account (Cr) *";
-            }
+            if(type === 'Receipt') { lblDr.innerText = "Account Debited (Cash/Bank) *"; lblCr.innerText = "Account Credited (Party/Income) *"; }
+            else if(type === 'Payment') { lblDr.innerText = "Account Debited (Party/Expense) *"; lblCr.innerText = "Account Credited (Cash/Bank) *"; }
+            else if(type === 'Sales') { lblDr.innerText = "Party Debited (Customer) *"; lblCr.innerText = "Sales Account *"; }
+            else if(type === 'Purchase') { lblDr.innerText = "Purchase Account *"; lblCr.innerText = "Party Credited (Supplier) *"; }
+            else { lblDr.innerText = "Debit Account (Dr) *"; lblCr.innerText = "Credit Account (Cr) *"; }
         };
 
         window.postTallyVoucherEntry = () => {
@@ -693,12 +731,10 @@
             if(drAcc === crAcc) { window.showToast("Debit and Credit accounts cannot be the same!", "error"); return; }
 
             let vouchers = window.loadTallyVouchers();
-            let vId = vouchers.length + 1;
-            vouchers.push({ id: vId, type, date, drAcc, crAcc, amount, narration });
+            vouchers.push({ id: vouchers.length + 1, type, date, drAcc, crAcc, amount, narration });
             localStorage.setItem(window.getTallyVouchersPath(), JSON.stringify(vouchers));
             
-            document.getElementById('tv_amount').value = '';
-            document.getElementById('tv_narration').value = '';
+            document.getElementById('tv_amount').value = ''; document.getElementById('tv_narration').value = '';
             window.showToast("Voucher posted successfully!");
             window.refreshTallyEngine();
         };
@@ -712,19 +748,16 @@
 
         window.refreshTallyEngine = () => {
             window.populateTallyDropdowns();
-            
             let tBody = document.getElementById('tbl_tally_ledgers_body');
             if(tBody) {
                 let ledgers = window.loadTallyLedgers();
                 tBody.innerHTML = ledgers.map((l, i) => `<tr><td><b>${l.name}</b></td><td>${l.group}</td><td>₹${l.opBal} ${l.opType}</td><td><button class="btn btn-danger" style="height:26px; font-size:9px;" onclick="let d=window.loadTallyLedgers(); d.splice(${i},1); localStorage.setItem(window.getTallyLedgersPath(), JSON.stringify(d)); window.refreshTallyEngine();">Del</button></td></tr>`).join('');
             }
-
             let dbBody = document.getElementById('tbl_tally_daybook_body');
             if(dbBody) {
                 let vouchers = window.loadTallyVouchers();
                 dbBody.innerHTML = vouchers.map(v => `<tr><td>#${v.id}</td><td>${v.date}</td><td><span style="color:var(--gold-bright)">${v.type}</span></td><td>Dr. <b>${v.drAcc}</b><br>Cr. <b>${v.crAcc}</b><br><small style="color:#94a3b8">${v.narration}</small></td><td style="font-weight:bold; color:var(--success);">₹${v.amount}</td><td><button class="btn btn-danger" style="height:26px; font-size:9px;" onclick="window.deleteTallyVoucher(${v.id})">Del</button></td></tr>`).join('') || `<tr><td colspan="6" style="text-align:center;">No vouchers recorded.</td></tr>`;
             }
-
             window.renderTallyLedgerStatement();
         };
 
@@ -735,114 +768,229 @@
             if(!lName || !stmtBody) return;
 
             titleEl.innerText = `Statement: ${lName}`;
-            let ledgers = window.loadTallyLedgers();
-            let targetLedger = ledgers.find(l => l.name === lName);
+            let targetLedger = window.loadTallyLedgers().find(l => l.name === lName);
             let runningBal = targetLedger ? (targetLedger.opType === 'Dr' ? targetLedger.opBal : -targetLedger.opBal) : 0;
 
             let html = `<tr><td>-</td><td>Opening Balance</td><td>Initial Balance</td><td>-</td><td>-</td><td><b>₹${Math.abs(runningBal)} ${runningBal >= 0 ? 'Dr' : 'Cr'}</b></td></tr>`;
-            
-            let vouchers = window.loadTallyVouchers();
-            vouchers.forEach(v => {
-                let isDr = (v.drAcc === lName);
-                let isCr = (v.crAcc === lName);
+            window.loadTallyVouchers().forEach(v => {
+                let isDr = (v.drAcc === lName), isCr = (v.crAcc === lName);
                 if(isDr || isCr) {
-                    let drAmt = isDr ? v.amount : 0;
-                    let crAmt = isCr ? v.amount : 0;
+                    let drAmt = isDr ? v.amount : 0, crAmt = isCr ? v.amount : 0;
                     runningBal += drAmt - crAmt;
                     html += `<tr><td>${v.date}</td><td>${v.type} (#${v.id})</td><td>${v.narration || '-'}</td><td>${drAmt ? '₹'+drAmt : '-'}</td><td>${crAmt ? '₹'+crAmt : '-'}</td><td><b>₹${Math.abs(runningBal)} ${runningBal >= 0 ? 'Dr' : 'Cr'}</b></td></tr>`;
                 }
             });
-
             stmtBody.innerHTML = html;
         };
 
         // ==========================================
-        // 3. SUPER ADMIN & STOCK TRANSFER
+        // 3. AI ASSISTANT CHATBOT ENGINE
         // ==========================================
+        window.sendAIChatQuery = () => {
+            let inputEl = document.getElementById('ai_chat_input');
+            let chatBox = document.getElementById('ai_chat_container');
+            let q = inputEl.value.trim();
+            if(!q) return;
+
+            chatBox.innerHTML += `<div style="background:rgba(245,158,11,0.2); border:1px solid rgba(245,158,11,0.4); padding:10px 14px; border-radius:12px; max-width:80%; align-self:flex-end; font-size:13px; font-weight:700;">${q}</div>`;
+            inputEl.value = '';
+            chatBox.scrollTop = chatBox.scrollHeight;
+
+            setTimeout(() => {
+                let reply = "Main aapka business assistant hoon. Aapne jo pucha uske anusaar, aapka current branch " + window.currentBranch.replace(/_/g, ' ') + " active hai aur stock safe hai.";
+                let qLower = q.toLowerCase();
+                let bks = window.loadBookings();
+                let rev = bks.reduce((a, b) => a + (Number(b.totalPaid)||0), 0);
+
+                if(qLower.includes('revenue') || qLower.includes('kamai') || qLower.includes('total')) {
+                    reply = `Is branch (${window.currentBranch.replace(/_/g, ' ')}) mein kul ${bks.length} entries hain aur total revenue ₹${rev} hai.`;
+                } else if(qLower.includes('stock') || qLower.includes('maal')) {
+                    let inv = window.loadInv();
+                    reply = `Current branch stock items: ` + inv.map(i => `${i.name} (${i.qty} units)`).join(', ');
+                } else if(qLower.includes('hello') || qLower.includes('hi')) {
+                    reply = `Namaskar! Main Shard Patel AI Assistant hoon. Bataiye main aapki kya sahayta karu?`;
+                }
+
+                chatBox.innerHTML += `<div style="background:rgba(6,182,212,0.15); border:1px solid rgba(6,182,212,0.4); padding:10px 14px; border-radius:12px; max-width:80%; align-self:flex-start; font-size:13px;">${reply}</div>`;
+                chatBox.scrollTop = chatBox.scrollHeight;
+            }, 500);
+        };
+
+        // ==========================================
+        // 4. TESSERACT.JS OCR CAMERA SCANNER API
+        // ==========================================
+        window.processOCRScan = async (input) => {
+            if (!input.files || !input.files[0]) return;
+            let file = input.files[0];
+            let statusEl = document.getElementById('ocr_status_box');
+            let outputEl = document.getElementById('ocr_result_output');
+            
+            statusEl.innerText = "⏳ Scanning document via Live Camera OCR API...";
+            outputEl.value = "";
+
+            try {
+                const { data: { text } } = await Tesseract.recognize(file, 'eng+hin', {
+                    logger: m => { if(m.status === 'recognizing text') statusEl.innerText = `⏳ OCR Progress: ${Math.round(m.progress * 100)}%`; }
+                });
+                statusEl.innerText = "✅ OCR Scan Completed Successfully!";
+                outputEl.value = text;
+                window.showToast("Text extracted via Camera Scanner!");
+            } catch (err) {
+                statusEl.innerText = "❌ OCR Processing Failed.";
+                window.showToast("OCR scan error", "error");
+            }
+        };
+
+        // ==========================================
+        // 5. ERP MODULES & KIOSK
+        // ==========================================
+        window.quoteCart = [];
+        window.addQuoteSelectedItem = () => {
+            let sel = document.getElementById('quote_item_select'); let qty = Number(document.getElementById('quote_item_qty').value) || 1; let rate = Number(document.getElementById('quote_item_rate').value) || 100;
+            window.quoteCart.push({ name: sel.value, qty, rate, total: qty * rate });
+            window.renderQuoteTable();
+        };
+        window.renderQuoteTable = () => {
+            let tbody = document.getElementById('quote_selected_items_tbody'); let gTotal = 0;
+            tbody.innerHTML = window.quoteCart.map((it, i) => { gTotal += it.total; return `<tr><td>${it.name}</td><td style="text-align:center;">${it.qty}</td><td>₹${it.rate}</td><td>₹${it.total}</td><td><button class="btn btn-danger" style="height:26px; font-size:9px;" onclick="window.quoteCart.splice(${i},1); window.renderQuoteTable();">Del</button></td></tr>`; }).join('');
+            document.getElementById('quote_gross_total').innerText = `₹${gTotal}`;
+        };
+        window.generateAndPrintQuote = () => {
+            let name = document.getElementById('quote_cname').value.trim(); if(!name || window.quoteCart.length === 0) { window.showToast("Enter customer name & items", "error"); return; }
+            let sName = localStorage.getItem('erp_shop_name_' + window.currentBranch) || window.currentBranch.replace(/_/g, ' ');
+            let html = `<div style="font-family: Arial; padding: 25px; background:#fff; color:#000;">
+                <h2 style="text-align:center;">${sName}</h2><p style="text-align:center; font-weight:bold;">QUOTATION / ESTIMATE</p><hr>
+                <p><b>Customer:</b> ${name} | <b>Date:</b> ${document.getElementById('quote_out').value}</p>
+                <table style="width:100%; border-collapse:collapse; margin-top:15px; font-size:12px;">
+                    <tr style="background:#f1f5f9; border-bottom:2px solid #000;"><th style="padding:8px;">Item</th><th style="padding:8px;">Qty</th><th style="padding:8px;">Rate</th><th style="padding:8px;">Amount</th></tr>
+                    ${window.quoteCart.map(it => `<tr><td style="padding:8px; border-bottom:1px solid #ddd;">${it.name}</td><td style="padding:8px; border-bottom:1px solid #ddd;">${it.qty}</td><td style="padding:8px; border-bottom:1px solid #ddd;">₹${it.rate}</td><td style="padding:8px; border-bottom:1px solid #ddd;">₹${it.total}</td></tr>`).join('')}
+                </table>
+                <h3 style="text-align:right; margin-top:15px;">Total Estimate: ${document.getElementById('quote_gross_total').innerText}</h3>
+            </div>`;
+            document.getElementById('modal_invoice_render_area').innerHTML = html;
+            document.getElementById('digital-invoice-modal').classList.remove('hidden');
+        };
+
+        window.kioskCart = [];
+        window.addKioskSelectedItem = () => {
+            let sel = document.getElementById('k_item_select'); let qty = Number(document.getElementById('k_item_qty').value) || 1;
+            window.kioskCart.push({ name: sel.value, qty });
+            let tbody = document.getElementById('kiosk_selected_items_tbody');
+            tbody.innerHTML = window.kioskCart.map((it, i) => `<tr><td>${it.name}</td><td style="text-align:center;">${it.qty}</td><td><button class="btn btn-danger" style="height:26px; font-size:9px;" onclick="window.kioskCart.splice(${i},1); window.addKioskSelectedItem();">Del</button></td></tr>`).join('');
+        };
+        window.updateKioskQRCode = (amt) => {
+            let qrEl = document.getElementById('kiosk_upi_qrcode'); qrEl.innerHTML = '';
+            new QRCode(qrEl, { text: `upi://pay?pa=shardpatel@upi&pn=Enterprise&am=${amt||0}&cu=INR`, width: 130, height: 130 });
+        };
+        window.submitKioskBooking = () => {
+            let name = document.getElementById('k_cname').value.trim(); if(!name) { window.showToast("Customer name required!", "error"); return; }
+            let bks = window.loadBookings(); let newId = bks.length + 1001;
+            bks.push({ id: newId, name: name, mob: document.getElementById('k_cmob').value, outDate: document.getElementById('k_out').value, status: 'Active', totalPaid: Number(document.getElementById('k_adv').value)||0, items: [...window.kioskCart] });
+            window.saveBookings(bks);
+            document.getElementById('kiosk_display_new_id').innerText = `#${newId}`;
+            document.getElementById('kiosk_success_card').classList.remove('hidden');
+            window.kioskCart = []; document.getElementById('kiosk_selected_items_tbody').innerHTML = '';
+            window.showToast("Booking Registered!");
+        };
+
+        window.activeDispatchBooking = null;
+        window.loadDispatchOrder = () => {
+            let q = document.getElementById('disp_search_inp').value.trim(); let found = window.loadBookings().find(b => String(b.id) === q);
+            if(!found) { window.showToast("Booking not found", "error"); return; }
+            window.activeDispatchBooking = found;
+            document.getElementById('disp_search_box').classList.add('hidden'); document.getElementById('disp_action_box').classList.remove('hidden');
+            document.getElementById('disp_title_ref').innerText = found.id;
+            let tbody = document.getElementById('disp_tbody');
+            tbody.innerHTML = (found.items || []).map(it => `<tr><td>${it.name}</td><td>${it.qty}</td><td><span style="color:var(--success);">Ready</span></td></tr>`).join('');
+        };
+        window.finalizeDispatch = () => { window.showToast("Dispatched Successfully!"); document.getElementById('disp_action_box').classList.add('hidden'); document.getElementById('disp_search_box').classList.remove('hidden'); };
+
+        window.loadReturnOrder = () => {
+            let q = document.getElementById('ret_search_inp').value.trim(); let found = window.loadBookings().find(b => String(b.id) === q);
+            if(!found) { window.showToast("Booking not found", "error"); return; }
+            document.getElementById('ret_search_box').classList.add('hidden'); document.getElementById('ret_action_box').classList.remove('hidden');
+            let tbody = document.getElementById('ret_tbody');
+            tbody.innerHTML = (found.items || []).map(it => `<tr><td>${it.name}</td><td>${it.qty}</td><td><input type="number" value="${it.qty}" style="width:60px; height:30px; text-align:center;"></td></tr>`).join('');
+        };
+        window.finalizeReturnInspection = () => { window.showToast("Return Inspection Complete!"); document.getElementById('ret_action_box').classList.add('hidden'); document.getElementById('ret_search_box').classList.remove('hidden'); };
+
+        window.saveMergedStaffPayroll = () => {
+            let name = document.getElementById('pay_name').value.trim(); let pin = document.getElementById('pay_pin').value.trim(); let branch = document.getElementById('pay_branch').value;
+            let role = document.getElementById('pay_role').value || 'Staff'; let mob = document.getElementById('pay_mob').value;
+            if(!name || pin.length !== 4) { window.showToast("Name and 4-digit PIN required", "error"); return; }
+            
+            let masterList = JSON.parse(localStorage.getItem('erp_staff_master_list') || '[]');
+            masterList.push({ name, pin, branch, role, mob });
+            localStorage.setItem('erp_staff_master_list', JSON.stringify(masterList));
+            
+            let html = `<div style="text-align:center; border:2px solid #000; padding:15px; border-radius:12px; background:#fff; width:260px; margin:0 auto;">
+                <h3 style="margin:0; font-family:'Cinzel',serif; font-size:14px; color:#000;">EMPLOYEE ID CARD</h3>
+                <p style="font-size:10px; margin:2px 0 10px 0; color:#555;">${branch.replace(/_/g,' ')}</p>
+                <div style="width:65px; height:65px; background:#e2e8f0; border-radius:50%; margin:0 auto 10px auto; display:flex; align-items:center; justify-content:center; font-size:22px;"><i class="fa-solid fa-user"></i></div>
+                <h4 style="margin:0; font-size:14px; color:#000;">${name}</h4>
+                <p style="font-size:11px; margin:2px 0; font-weight:bold; color:#0284c7;">${role}</p>
+                <p style="font-size:11px; margin:2px 0;">Mob: ${mob || '-'}</p>
+                <hr style="margin:10px 0;">
+                <p style="font-size:9px; color:#666;">Authorized Signatory<br><b>SHARD PATEL ENTERPRISES</b></p>
+            </div>`;
+            document.getElementById('id_card_render_area').innerHTML = html;
+            document.getElementById('staff-id-modal').classList.remove('hidden');
+            window.renderStaffTable();
+            window.showToast("Staff Registered & ID Generated!");
+        };
+
+        window.renderStaffTable = () => {
+            let masterList = JSON.parse(localStorage.getItem('erp_staff_master_list') || '[]');
+            let tbody = document.getElementById('tbl-merged-payroll');
+            if(tbody) tbody.innerHTML = masterList.map((s, i) => `<tr><td><b>${s.name}</b></td><td>${s.role}</td><td>${s.branch.replace(/_/g,' ')}</td><td><button class="btn btn-danger" style="height:26px; font-size:9px;" onclick="let d=JSON.parse(localStorage.getItem('erp_staff_master_list')); d.splice(${i},1); localStorage.setItem('erp_staff_master_list', JSON.stringify(d)); window.renderStaffTable();">Del</button></td></tr>`).join('') || '<tr><td colspan="4" style="text-align:center;">No staff registered.</td></tr>';
+        };
+
         window.renderSuperAdminDash = () => {
             let tbody = document.getElementById('tbl-superadmin-dash');
-            let totalNetWorth = 0;
-            let html = '';
+            let totalNetWorth = 0; let html = '';
             window.erpBranches.forEach(branch => {
-                let dbP = `erp_data_${window.currentBizMode}_${branch}_bks`;
-                let bks = JSON.parse(localStorage.getItem(dbP) || '[]');
+                let bks = JSON.parse(localStorage.getItem(`erp_data_${window.currentBizMode}_${branch}_bks`) || '[]');
                 let rev = bks.reduce((a, b) => a + (Number(b.totalPaid)||0), 0);
                 totalNetWorth += rev;
                 html += `<tr><td><b>${branch.replace(/_/g, ' ')}</b></td><td style="text-align:center;">${bks.length}</td><td style="text-align:right; color:var(--success); font-weight:bold;">₹${rev}</td></tr>`;
             });
             if(tbody) tbody.innerHTML = html;
-            let nwEl = document.getElementById('superadmin_net_worth');
-            if(nwEl) nwEl.innerText = `₹${totalNetWorth}`;
+            let nwEl = document.getElementById('superadmin_net_worth'); if(nwEl) nwEl.innerText = `₹${totalNetWorth}`;
         };
 
         window.loadInvForBranch = (b) => { return JSON.parse(localStorage.getItem(`erp_data_${window.currentBizMode}_${b}_inv`) || '[]'); };
         window.saveInvForBranch = (b, d) => { localStorage.setItem(`erp_data_${window.currentBizMode}_${b}_inv`, JSON.stringify(d)); };
         
         window.executeStockTransfer = () => {
-            let fromB = window.currentBranch;
-            let toB = document.getElementById('transfer_to').value;
-            let itemN = document.getElementById('transfer_item').value;
-            let qty = Number(document.getElementById('transfer_qty').value) || 0;
-            
-            if(fromB === toB) { window.showToast("Cannot transfer to same branch!", "error"); return; }
-            if(!itemN || qty <= 0) { window.showToast("Select valid item & qty", "error"); return; }
-
-            let invFrom = window.loadInvForBranch(fromB);
-            let invTo = window.loadInvForBranch(toB);
-
-            let fromIdx = invFrom.findIndex(i => i.name === itemN);
-            if(fromIdx < 0 || invFrom[fromIdx].qty < qty) { window.showToast("Not enough stock in source branch!", "error"); return; }
-
-            invFrom[fromIdx].qty -= qty;
-            let toIdx = invTo.findIndex(i => i.name === itemN);
-            if(toIdx >= 0) { invTo[toIdx].qty += qty; } 
-            else { invTo.push({ name: itemN, qty: qty, rent: invFrom[fromIdx].rent, barcode: "TR" + Math.floor(Math.random()*900000) }); }
-
-            window.saveInvForBranch(fromB, invFrom);
-            window.saveInvForBranch(toB, invTo);
-            
-            window.showToast(`Successfully transferred ${qty} ${itemN} to ${toB.replace(/_/g,' ')}`);
-            window.applyBusinessContext();
+            let fromB = window.currentBranch, toB = document.getElementById('transfer_to').value, itemN = document.getElementById('transfer_item').value, qty = Number(document.getElementById('transfer_qty').value) || 0;
+            if(fromB === toB || !itemN || qty <= 0) { window.showToast("Invalid transfer parameters", "error"); return; }
+            let invFrom = window.loadInvForBranch(fromB), invTo = window.loadInvForBranch(toB);
+            let fIdx = invFrom.findIndex(i => i.name === itemN);
+            if(fIdx < 0 || invFrom[fIdx].qty < qty) { window.showToast("Insufficient stock in source branch!", "error"); return; }
+            invFrom[fIdx].qty -= qty;
+            let tIdx = invTo.findIndex(i => i.name === itemN);
+            if(tIdx >= 0) invTo[tIdx].qty += qty; else invTo.push({ name: itemN, qty, rent: invFrom[fIdx].rent });
+            window.saveInvForBranch(fromB, invFrom); window.saveInvForBranch(toB, invTo);
+            window.showToast("Stock Transferred Successfully!"); window.applyBusinessContext();
         };
 
-        // ==========================================
-        // 4. AUTHENTICATION & APP CONTROLS
-        // ==========================================
-        window.showToast = (m, t='success') => { let d = document.getElementById('toast-msg'); if(!d) return; d.className = `toast ${t === 'error' ? 'toast-error' : ''}`; d.innerHTML = t === 'success' ? `✅ ${m}` : `⚠️ ${m}`; d.classList.add('show'); setTimeout(() => d.classList.remove('show'), 2500); };
-        window.handleLogoTapSecret = () => { let m = document.getElementById('unified-login-modal'); if(m) m.classList.remove('hidden'); };
-        
         window.processUnifiedAuth = () => {
-            let pinEl = document.getElementById('unified_pin'); if(!pinEl) return;
-            let val = pinEl.value.trim();
-            
-            let adminP1 = localStorage.getItem('erp_admin_pass1') || "812072";
-            let adminP2 = localStorage.getItem('erp_admin_pass2') || "D812072";
-            
-            let masterStaffList = JSON.parse(localStorage.getItem('erp_staff_master_list') || '[]');
-            let matchedStaff = masterStaffList.find(s => s.pin === val);
+            let val = document.getElementById('unified_pin').value.trim();
+            let adminP1 = localStorage.getItem('erp_admin_pass1') || "812072", adminP2 = localStorage.getItem('erp_admin_pass2') || "D812072";
+            let staff = JSON.parse(localStorage.getItem('erp_staff_master_list') || '[]').find(s => s.pin === val);
 
             if(val === adminP1 || val === adminP2) {
                 document.getElementById('global_branch_selector').disabled = false;
                 document.querySelectorAll('.admin-restricted-menu').forEach(el => el.style.display = 'flex');
-                
-                document.getElementById('unified-login-modal').classList.add('hidden');
-                document.getElementById('kiosk-app').classList.add('hidden');
-                document.getElementById('admin-app').classList.remove('hidden');
-                window.navigate('page-dash', document.querySelector('.menu-item'));
-                pinEl.value = ""; window.showToast("Admin Access Granted!");
-            } else if(matchedStaff) {
-                window.switchGlobalBranch(matchedStaff.branch);
+                document.getElementById('unified-login-modal').classList.add('hidden'); document.getElementById('kiosk-app').classList.add('hidden'); document.getElementById('admin-app').classList.remove('hidden');
+                window.navigate('page-dash', document.querySelector('.menu-item')); window.showToast("Admin Access Granted!");
+            } else if(staff) {
+                window.switchGlobalBranch(staff.branch);
                 document.getElementById('global_branch_selector').disabled = true;
                 document.querySelectorAll('.admin-restricted-menu').forEach(el => el.style.display = 'none');
-                
-                document.getElementById('unified-login-modal').classList.add('hidden');
-                document.getElementById('kiosk-app').classList.add('hidden');
-                document.getElementById('admin-app').classList.remove('hidden');
-                window.navigate('page-dash', document.querySelector('.menu-item'));
-                pinEl.value = ""; window.showToast(`Welcome ${matchedStaff.name}!`);
-            } else {
-                window.showToast("Invalid PIN!", "error"); pinEl.value = "";
-            }
+                document.getElementById('unified-login-modal').classList.add('hidden'); document.getElementById('kiosk-app').classList.add('hidden'); document.getElementById('admin-app').classList.remove('hidden');
+                window.navigate('page-dash', document.querySelector('.menu-item')); window.showToast(`Welcome ${staff.name}!`);
+            } else { window.showToast("Invalid PIN!", "error"); }
         };
 
         window.logoutToKiosk = () => { document.getElementById('admin-app').classList.add('hidden'); document.getElementById('kiosk-app').classList.remove('hidden'); document.getElementById('global_branch_selector').disabled = false; };
@@ -861,18 +1009,17 @@
         window.loadInv = () => window.loadInvForBranch(window.currentBranch);
         window.saveInv = (d) => window.saveInvForBranch(window.currentBranch, d);
 
-        // Cart & Booking Logic
         window.adminCart = [];
         window.addAdminSelectedItem = () => {
-            let sel = document.getElementById('admin_item_select'); let qty = document.getElementById('admin_item_qty');
-            window.adminCart.push({ name: sel.value, qty: Number(qty.value) || 1, price: 100 });
+            let sel = document.getElementById('admin_item_select'); let qty = Number(document.getElementById('admin_item_qty').value) || 1;
+            window.adminCart.push({ name: sel.value, qty, price: 100 });
             let tbody = document.getElementById('admin_selected_items_tbody');
             tbody.innerHTML = window.adminCart.map((it, i) => `<tr><td>${it.name}</td><td style="text-align:center;">${it.qty}</td><td><button class="btn btn-danger" style="height:28px; font-size:9px;" onclick="window.adminCart.splice(${i},1); window.addAdminSelectedItem();">Del</button></td></tr>`).join('');
         };
         window.createNewAdminBooking = () => {
             let name = document.getElementById('admin_bk_name').value.trim(); if(!name) { window.showToast("Name required!", "error"); return; }
             let bks = window.loadBookings(); let newId = bks.length + 1001;
-            bks.push({ id: newId, name: name, mob: document.getElementById('admin_bk_mob').value, outDate: document.getElementById('admin_bk_out').value || new Date().toISOString().split('T')[0], status: 'Saved', totalPaid: Number(document.getElementById('admin_bk_adv').value) || 0, items: [...window.adminCart] });
+            bks.push({ id: newId, name, mob: document.getElementById('admin_bk_mob').value, outDate: document.getElementById('admin_bk_out').value || new Date().toISOString().split('T')[0], status: 'Saved', totalPaid: Number(document.getElementById('admin_bk_adv').value)||0, items: [...window.adminCart] });
             window.saveBookings(bks); window.adminCart = []; document.getElementById('admin_selected_items_tbody').innerHTML=''; window.showToast("Record Saved!"); window.renderAdminTables();
         };
 
@@ -882,7 +1029,6 @@
             document.getElementById('dash_revenue').innerText = `₹${bks.reduce((a, b) => a + (Number(b.totalPaid)||0), 0)}`;
             let tbody = document.getElementById('tbl-booking-list');
             if(tbody) tbody.innerHTML = bks.map(b => `<tr><td>#${b.id}</td><td>${b.name}</td><td>${b.status}</td><td>₹${b.totalPaid}</td><td><button class="btn btn-gold" style="height:26px;font-size:9px;" onclick="window.showToast('Select from Billing')">Open</button></td></tr>`).join('') || '<tr><td colspan="5" style="text-align:center;">No records.</td></tr>';
-            
             let invTbody = document.getElementById('tbl-stock-master');
             if(invTbody) {
                 let inv = window.loadInv();
@@ -890,10 +1036,9 @@
             }
         };
 
-        // GST Billing & PDF Preview
         window.activeBillBooking = null; window.billGrossTotal = 0;
         window.loadBillOrder = () => {
-            let q = document.getElementById('bill_search_inp').value.trim(); let bks = window.loadBookings(); let found = bks.find(b => String(b.id) === q);
+            let q = document.getElementById('bill_search_inp').value.trim(); let found = window.loadBookings().find(b => String(b.id) === q);
             if(!found) { window.showToast("Record not found!", "error"); return; }
             window.activeBillBooking = found;
             document.getElementById('bill_search_box').classList.add('hidden'); document.getElementById('bill_action_box').classList.remove('hidden');
@@ -902,36 +1047,29 @@
             document.getElementById('bill_gross_inp').value = window.billGrossTotal; window.recalculateBillTotal();
         };
         window.recalculateBillTotal = () => {
-            let gross = window.billGrossTotal || 0; let disc = Number(document.getElementById('bill_disc_inp').value) || 0; let paid = Number(document.getElementById('bill_paid_inp').value) || 0;
+            let gross = window.billGrossTotal || 0, disc = Number(document.getElementById('bill_disc_inp').value) || 0, paid = Number(document.getElementById('bill_paid_inp').value) || 0;
             document.getElementById('bill_due_inp').value = Math.max(0, gross - disc - paid);
         };
         window.previewActiveBill = () => {
             if(!window.activeBillBooking) return; let b = window.activeBillBooking;
             let sName = localStorage.getItem('erp_shop_name_' + window.currentBranch) || window.currentBranch.replace(/_/g, ' ');
-            let sAddr = localStorage.getItem('erp_shop_addr_' + window.currentBranch) || "Main Market";
-            let sGstin = localStorage.getItem('erp_shop_gstin_' + window.currentBranch) || "23AAAAA0000A1Z5";
-            let netAmt = document.getElementById('bill_due_inp').value;
-            let cgst = (window.billGrossTotal * 0.09).toFixed(2);
-            let sgst = (window.billGrossTotal * 0.09).toFixed(2);
+            let sAddr = localStorage.getItem('erp_shop_addr_' + window.currentBranch) || "Main Market", sGstin = localStorage.getItem('erp_shop_gstin_' + window.currentBranch) || "23AAAAA0000A1Z5";
+            let netAmt = document.getElementById('bill_due_inp').value, cgst = (window.billGrossTotal * 0.09).toFixed(2), sgst = (window.billGrossTotal * 0.09).toFixed(2);
 
             let html = `<div style="font-family: Arial; padding: 25px; background: #fff; color:#000;">
                 <h2 style="text-align:center; font-family:'Cinzel',serif; margin-bottom:4px;">${sName}</h2>
-                <p style="text-align:center; font-size:11px; color:#555;">${sAddr} | GSTIN: ${sGstin}</p>
-                <hr style="margin:12px 0;">
+                <p style="text-align:center; font-size:11px; color:#555;">${sAddr} | GSTIN: ${sGstin}</p><hr style="margin:12px 0;">
                 <div style="display:flex; justify-content:space-between; font-size:12px; margin-bottom:12px;">
-                    <div><b>Customer:</b> ${b.name} (${b.mob||'-'})</div>
-                    <div><b>Invoice #:</b> INV-${b.id}<br><b>Date:</b> ${b.outDate}</div>
+                    <div><b>Customer:</b> ${b.name} (${b.mob||'-'})</div><div><b>Invoice #:</b> INV-${b.id}<br><b>Date:</b> ${b.outDate}</div>
                 </div>
                 <table style="width:100%; border-collapse:collapse; margin-top:10px; font-size:12px; text-align:left;">
                     <tr style="background:#f1f5f9; border-bottom:2px solid #000;"><th style="padding:8px;">Item</th><th style="padding:8px;">Qty</th><th style="padding:8px;">Rate</th><th style="padding:8px;">Total</th></tr>
                     ${(b.items||[]).map(it => `<tr><td style="padding:8px; border-bottom:1px solid #ddd;">${it.name}</td><td style="padding:8px; border-bottom:1px solid #ddd;">${it.qty}</td><td style="padding:8px; border-bottom:1px solid #ddd;">₹${it.price||100}</td><td style="padding:8px; border-bottom:1px solid #ddd;">₹${it.qty*(it.price||100)}</td></tr>`).join('')}
                 </table>
                 <div style="margin-top:15px; font-size:12px; text-align:right;">
-                    <p>Subtotal: ₹${window.billGrossTotal}</p>
-                    <p>CGST (9%): ₹${cgst} | SGST (9%): ₹${sgst}</p>
+                    <p>Subtotal: ₹${window.billGrossTotal}</p><p>CGST (9%): ₹${cgst} | SGST (9%): ₹${sgst}</p>
                     <h3 style="margin-top:6px;">Grand Total Due: ₹${netAmt}</h3>
-                </div>
-                <hr style="margin:15px 0;">
+                </div><hr style="margin:15px 0;">
                 <p style="text-align:center; font-size:10px; color:#777;">Thank you for your business! Developed by SHARD PATEL</p>
             </div>`;
             document.getElementById('modal_invoice_render_area').innerHTML = html;
@@ -941,12 +1079,18 @@
             let element = document.getElementById('modal_invoice_render_area');
             let opt = { margin: 0.3, filename: 'GST_Invoice.pdf', image: { type: 'jpeg', quality: 1 }, html2canvas: { scale: 2 }, jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' } };
             try {
-                window.showToast("Generating PDF...");
                 let pdfBlob = await html2pdf().set(opt).from(element).output('blob');
                 let file = new File([pdfBlob], `GST_Invoice.pdf`, { type: 'application/pdf' });
-                if (navigator.share && navigator.canShare({ files: [file] })) { await navigator.share({ files: [file], title: 'Tax Invoice', text: 'Namaskar! Here is your GST invoice.' }); } 
-                else { html2pdf().set(opt).from(element).save(); }
-            } catch(e) { window.showToast("Share failed, downloading...", "error"); html2pdf().set(opt).from(element).save(); }
+                if (navigator.share && navigator.canShare({ files: [file] })) await navigator.share({ files: [file], title: 'Tax Invoice', text: 'Here is your GST invoice PDF.' });
+                else html2pdf().set(opt).from(element).save();
+            } catch(e) { html2pdf().set(opt).from(element).save(); }
+        };
+        window.sendWhatsAppInvoiceAPI = () => {
+            if (!window.activeBillBooking) return;
+            let b = window.activeBillBooking;
+            let netAmt = document.getElementById('bill_due_inp').value;
+            let msg = encodeURIComponent(`Namaskar ${b.name}! Aapka bill #${b.id} total ₹${netAmt} baaki hai. Visit again! - SHARD PATEL ENTERPRISES`);
+            window.open(`https://api.whatsapp.com/send?phone=91${b.mob || ''}&text=${msg}`, '_blank');
         };
         window.settleAndPrintActiveBill = () => { window.showToast("Invoice Settled & Posted!"); document.getElementById('bill_action_box').classList.add('hidden'); document.getElementById('bill_search_box').classList.remove('hidden'); };
 
@@ -957,32 +1101,20 @@
         };
 
         window.saveMasterSettingsHub = () => {
-            let bName = document.getElementById('set_shop_name').value;
-            let bAddr = document.getElementById('set_shop_addr').value;
-            let bPhone = document.getElementById('set_shop_phone').value;
-            let bGstin = document.getElementById('set_shop_gstin').value;
-            
+            let bName = document.getElementById('set_shop_name').value, bAddr = document.getElementById('set_shop_addr').value, bPhone = document.getElementById('set_shop_phone').value, bGstin = document.getElementById('set_shop_gstin').value;
             if(bName) localStorage.setItem('erp_shop_name_' + window.currentBranch, bName);
             if(bAddr) localStorage.setItem('erp_shop_addr_' + window.currentBranch, bAddr);
             if(bPhone) localStorage.setItem('erp_shop_phone_' + window.currentBranch, bPhone);
             if(bGstin) localStorage.setItem('erp_shop_gstin_' + window.currentBranch, bGstin);
-            
-            window.showToast(`Settings Saved for ${window.currentBranch.replace(/_/g, ' ')}!`);
-            setTimeout(() => location.reload(), 1000);
+            window.showToast("Settings Saved Successfully!");
+            setTimeout(() => location.reload(), 800);
         };
 
-        window.saveMergedStaffPayroll = () => {
-            let pin = document.getElementById('pay_pin').value.trim();
-            let branch = document.getElementById('pay_branch').value;
-            let name = document.getElementById('pay_name').value.trim();
-            if(pin.length !== 4 || !name) { window.showToast("Name and 4 digit PIN required", "error"); return; }
-            
-            let masterList = JSON.parse(localStorage.getItem('erp_staff_master_list') || '[]');
-            masterList.push({ name: name, pin: pin, branch: branch });
-            localStorage.setItem('erp_staff_master_list', JSON.stringify(masterList));
-            
-            window.showToast("Staff Access Saved!");
-            document.getElementById('pay_pin').value = ''; document.getElementById('pay_name').value = '';
+        window.factoryResetAllData = () => {
+            if(confirm("Are you sure you want to reset the system? All data will be cleared.")) {
+                localStorage.clear();
+                location.reload();
+            }
         };
 
         document.addEventListener('DOMContentLoaded', () => {
@@ -990,10 +1122,12 @@
             let sMode = document.getElementById('erp_business_mode'); if(sMode) sMode.value = window.currentBizMode;
             window.applyBusinessContext();
             window.refreshTallyEngine();
+            window.renderStaffTable();
             
             let today = new Date().toISOString().split('T')[0];
-            ['k_out', 'k_in', 'admin_bk_out', 'admin_bk_ret', 'tv_date'].forEach(id => { let el = document.getElementById(id); if(el) el.value = today; });
+            ['k_out', 'k_in', 'admin_bk_out', 'admin_bk_ret', 'tv_date', 'quote_out'].forEach(id => { let el = document.getElementById(id); if(el) el.value = today; });
             window.renderAdminTables();
+            window.updateKioskQRCode(0);
         });
     </script>
 </body>
